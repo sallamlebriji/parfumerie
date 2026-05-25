@@ -1,0 +1,43 @@
+
+> perfume-shop-frontend@1.0.0 dev
+> vite --host 0.0.0.0
+
+
+  [32m[1mVITE[22m v6.4.2[39m  [2mready in [0m[1m2920[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5174[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.56.1:[1m5174[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.1.173:[1m5174[22m/[39m
+[2m16:24:03[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/AdminModulePage.jsx, /src/index.css[22m
+[2m16:24:03[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/AdminModulePage.jsx, /src/index.css[22m
+[2m16:31:45[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/admin/AdminModulePage.jsx, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx[22m
+[2m16:31:45[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/components/layout/AdminLayout.jsx, /src/index.css[22m
+[2m16:31:45[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/AppRoutes.jsx, /src/index.css[22m
+[2m16:32:36[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/AdminModulePage.jsx, /src/index.css[22m
+[2m16:33:00[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/public/ShopPage.jsx, /src/pages/public/ProductDetailPage.jsx, /src/pages/public/HomePage.jsx, /src/pages/admin/AdminModulePage.jsx, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx[22m
+[2m16:33:00[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/ProductFormPage.jsx, /src/index.css[22m
+[2m16:43:05[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/components/layout/AdminLayout.jsx, /src/index.css[22m
+[2m16:43:19[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m16:49:47[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/components/layout/AdminLayout.jsx, /src/index.css[22m
+[2m16:49:47[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/components/layout/AdminLayout.jsx, /src/index.css[22m
+[2m17:01:29[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/admin/AdminModulePage.jsx, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx[22m
+[2m17:01:29[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/admin/AdminModulePage.jsx, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx[22m
+[2m17:01:48[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/components/layout/AdminLayout.jsx, /src/index.css[22m
+[2m17:02:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/AppRoutes.jsx, /src/index.css[22m
+[2m17:02:32[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/ProductFormPage.jsx, /src/index.css[22m
+[2m17:02:32[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/AdminModulePage.jsx, /src/index.css[22m
+[2m17:02:41[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/public/ShopPage.jsx, /src/pages/public/ProductDetailPage.jsx, /src/pages/public/HomePage.jsx, /src/pages/admin/AdminModulePage.jsx, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx[22m
+[2m16:54:52[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/context/AuthContext.jsx, /src/index.css, /src/pages/public/ShopPage.jsx, /src/pages/public/ProductDetailPage.jsx, /src/pages/public/HomePage.jsx, /src/pages/admin/AdminModulePage.jsx, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx[22m
+[2m16:54:54[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/context/AuthContext.jsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m16:54:54[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/context/AuthContext.jsx[22m
+[2m16:54:59[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/layout/AdminLayout.jsx, /src/components/layout/RequireAccess.jsx, /src/pages/admin/ProductFormPage.jsx, /src/pages/admin/AdminModulePage.jsx[22m
+[2m16:56:57[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m16:56:58[22m [36m[1m[vite][22m[39m server restarted.
+[2m16:57:10[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx, /src/pages/admin/AdminModulePage.jsx[22m
+[2m16:57:40[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/AdminModulePage.jsx, /src/index.css[22m
+[2m16:57:48[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx, /src/pages/admin/AdminModulePage.jsx[22m
+[2m17:03:29[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/components/layout/AdminLayout.jsx, /src/index.css[22m
+[2m17:03:36[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/routes/AppRoutes.jsx, /src/index.css[22m
+[2m17:03:52[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/admin/AdminDashboardPage.jsx, /src/pages/admin/ProductFormPage.jsx, /src/pages/admin/AdminModulePage.jsx[22m
+[2m17:04:14[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/AdminModulePage.jsx, /src/index.css[22m
+[2m17:05:02[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/admin/AdminModulePage.jsx, /src/index.css[22m

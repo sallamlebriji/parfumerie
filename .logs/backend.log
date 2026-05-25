@@ -1,0 +1,375 @@
+
+> perfume-shop-backend@1.0.0 dev
+> nodemon server.js
+
+[33m[nodemon] 3.1.14[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[0mGET / [32m200[0m 8.659 ms - 41[0m
+[0mGET /api/perfumes [32m200[0m 362.207 ms - 11153[0m
+[0mGET /api/perfumes [36m304[0m 91.529 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 209.657 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 150.762 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 760.830 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 117.473 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 181.658 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 124.219 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 156.901 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 133.494 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 182.236 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 159.586 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 258.309 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 104.246 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 145.089 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 97.718 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 233.921 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 90.782 ms - -[0m
+[0mPOST /api/auth/login [33m401[0m 106.841 ms - 37[0m
+[0mPOST /api/auth/login [33m401[0m 144.831 ms - 37[0m
+[0mPOST /api/auth/login [32m200[0m 1482.644 ms - 307[0m
+[0mGET /api/auth/profile [32m200[0m 103.454 ms - 219[0m
+[0mGET /api/admin/orders [32m200[0m 176.407 ms - 2[0m
+[0mGET /api/admin/stocks [32m200[0m 981.970 ms - 2605[0m
+[0mGET /api/admin/dashboard [32m200[0m 1781.868 ms - 310[0m
+[0mGET /api/admin/customers [32m200[0m 158.962 ms - 2[0m
+[0mPOST /api/auth/login [32m200[0m 1153.922 ms - 307[0m
+[0mGET /api/admin/settings [32m200[0m 165.754 ms - 388[0m
+[0mGET /api/auth/profile [36m304[0m 83.202 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 141.558 ms - -[0m
+[0mGET /api/admin/settings [32m200[0m 176.733 ms - 388[0m
+[0mGET /api/admin/settings [36m304[0m 180.505 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 167.515 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 366.256 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 759.187 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 154.848 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 337.072 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 758.740 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 156.660 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 328.217 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 857.943 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[0mGET /api/admin/orders [36m304[0m 225.907 ms - -[0m
+[0mGET /api/admin/stocks [32m200[0m 573.697 ms - 3271[0m
+[0mGET /api/admin/dashboard [36m304[0m 992.454 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 188.485 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 420.766 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 1071.602 ms - -[0m
+[0mPOST /api/auth/login [32m200[0m 2317.021 ms - 307[0m
+[0mPOST /api/auth/login [32m200[0m 2331.075 ms - 307[0m
+[0mGET /api/admin/products [32m200[0m 470.841 ms - 17945[0m
+[0mGET /api/admin/parfumeries [32m200[0m 524.925 ms - 2[0m
+[0mGET /api/admin/orders [36m304[0m 168.537 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 631.922 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 1344.121 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 149.171 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 352.856 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 1180.775 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 102.837 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 391.063 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 209.825 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 12382.703 ms - -[0m
+[0mGET /api/admin/categories [32m200[0m 162.884 ms - 1900[0m
+[0mGET /api/admin/dashboard [36m304[0m 23224.021 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 388.730 ms - -[0m
+[0mGET /api/admin/products [32m200[0m 2191.677 ms - 17945[0m
+[0mGET /api/admin/stocks [36m304[0m 786.955 ms - -[0m
+[0mGET /api/admin/parfumeries [32m200[0m 362.368 ms - 2[0m
+[0mGET /api/admin/settings [36m304[0m 176.346 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 205.780 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 242.217 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 397.137 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 477.532 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 345.786 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 261.477 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 236.401 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 810.822 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 223.931 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 232.342 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 427.042 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 265.727 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 258.356 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 362.127 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[0mGET /api/admin/parfumeries [36m304[0m 347.262 ms - -[0m
+[0mGET /api/admin/parfumeries [36m304[0m 267.642 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[0mGET /api/admin/parfumeries [36m304[0m 308.606 ms - -[0m
+[0mGET /api/tenants [32m200[0m 254.811 ms - 2[0m
+[0mGET /api/tenants [36m304[0m 274.429 ms - -[0m
+[0mGET /api/tenants [36m304[0m 238.935 ms - -[0m
+[0mPOST /api/auth/login [32m200[0m 1590.696 ms - 362[0m
+[0mGET /api/tenants [32m200[0m 218.319 ms - 2[0m
+[0mPOST /api/tenants/provision [32m201[0m 2160.956 ms - 991[0m
+[0mGET /api/tenants/6a11d00b012fdb50c0fe5bc9/stats [32m200[0m 642.475 ms - 57[0m
+[0mDELETE /api/tenants/6a11d00b012fdb50c0fe5bc9 [32m200[0m 273.676 ms - 30[0m
+[0mPOST /api/auth/login [32m200[0m 1354.119 ms - 362[0m
+[0mPOST /api/tenants/provision [32m201[0m 1841.076 ms - 972[0m
+[0mPOST /api/auth/login [32m200[0m 1325.093 ms - 966[0m
+[0mGET /api/admin/settings [32m200[0m 585.055 ms - 442[0m
+[0mGET /api/tenants [33m403[0m 111.398 ms - 52[0m
+[0mDELETE /api/tenants/6a11d055012fdb50c0fe5be2 [32m200[0m 288.379 ms - 30[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[0mPOST /api/auth/login [32m200[0m 1636.249 ms - 378[0m
+[0mPOST /api/tenants/provision [32m201[0m 2001.139 ms - 972[0m
+[0mPOST /api/auth/login [32m200[0m 1596.611 ms - 623[0m
+[0mGET /api/admin/settings [32m200[0m 347.560 ms - 441[0m
+[0mGET /api/tenants [33m403[0m 78.440 ms - 52[0m
+[0mDELETE /api/tenants/6a11d0824e71786d793e1a4e [32m200[0m 278.844 ms - 30[0m
+[0mPOST /api/auth/login [32m200[0m 1153.015 ms - 378[0m
+[0mGET /api/admin/dashboard [32m200[0m 1144.611 ms - 310[0m
+[0mGET /api/tenants [32m200[0m 225.912 ms - 2[0m
+[0mGET /api/admin/products [36m304[0m 55530.822 ms - -[0m
+[0mGET /api/tenants [36m304[0m 80782.408 ms - -[0m
+[0mGET /api/auth/profile [32m200[0m 848.950 ms - 220[0m
+[0mGET /api/perfumes [36m304[0m 1047.220 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 165.586 ms - -[0m
+[0mGET /api/perfumes [36m304[0m 236.207 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 384.053 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 278.584 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 521.553 ms - -[0m
+[0mGET /api/admin/dashboard [32m200[0m 1354.094 ms - 310[0m
+[0mGET /api/admin/stocks [32m200[0m 1372.575 ms - 3865[0m
+[0mPOST /api/auth/login [32m200[0m 1250.516 ms - 378[0m
+[0mGET /api/auth/profile [36m304[0m 75.656 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 165.113 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 451.879 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 776.779 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 177.463 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 395.567 ms - -[0m
+[0mGET /api/admin/dashboard [0m-[0m - ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 160.374 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 74.730 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 165.230 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 339.008 ms - -[0m
+[0mGET /api/admin/dashboard [32m200[0m 770.551 ms - 310[0m
+[0mGET /api/admin/dashboard [33m401[0m 132.029 ms - 38[0m
+[0mGET /api/admin/orders [33m401[0m 86.752 ms - 38[0m
+[0mGET /api/admin/stocks [33m401[0m 88.413 ms - 38[0m
+[0mGET /api/admin/dashboard [33m401[0m 78.708 ms - 38[0m
+[0mGET /api/admin/orders [33m401[0m 76.392 ms - 38[0m
+[0mGET /api/admin/stocks [33m401[0m 85.108 ms - 38[0m
+[0mGET /api/admin/dashboard [33m401[0m 87.540 ms - 38[0m
+[0mGET /api/admin/orders [33m401[0m 79.638 ms - 38[0m
+[0mGET /api/admin/stocks [33m401[0m 96.011 ms - 38[0m
+[0mGET /api/admin/dashboard [33m401[0m 120.955 ms - 38[0m
+[0mGET /api/admin/orders [33m401[0m 115.516 ms - 38[0m
+[0mGET /api/admin/stocks [33m401[0m 111.276 ms - 38[0m
+[0mPOST /api/auth/login [32m200[0m 1318.600 ms - 380[0m
+[0mGET /api/auth/profile [32m200[0m 81.121 ms - 222[0m
+[0mGET /api/admin/orders [36m304[0m 235.522 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 378.802 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 942.082 ms - -[0m
+[0mPOST /api/auth/login [32m200[0m 2104.065 ms - 380[0m
+[0mGET /api/auth/profile [36m304[0m 115.701 ms - -[0m
+[0mGET /api/admin/orders [36m304[0m 156.942 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 407.420 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 622.254 ms - -[0m
+[0mGET /api/tenants [36m304[0m 246.075 ms - -[0m
+[0mGET /api/tenants [36m304[0m 257.549 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[0mGET /api/tenants [36m304[0m 2040.010 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[0mGET /api/auth/profile [32m200[0m 199.000 ms - 189[0m
+[0mGET /api/auth/profile [36m304[0m 88.021 ms - -[0m
+[0mGET /api/tenants [36m304[0m 262.792 ms - -[0m
+[0mGET /api/tenants [36m304[0m 239.485 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-01.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[0mGET /api/auth/profile [36m304[0m 173.707 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 134.888 ms - -[0m
+[0mGET /api/tenants [36m304[0m 244.048 ms - -[0m
+[0mGET /api/tenants [36m304[0m 228.178 ms - -[0m
+[0mGET /api/tenants [36m304[0m 390.593 ms - -[0m
+[0mGET /api/tenants [36m304[0m 227.768 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[0mGET /api/tenants [36m304[0m 261.482 ms - -[0m
+[0mGET /api/admin/brands [32m200[0m 177.045 ms - 1581[0m
+[0mGET /api/admin/orders [36m304[0m 151.760 ms - -[0m
+[0mGET /api/admin/stocks [36m304[0m 547.913 ms - -[0m
+[0mGET /api/admin/dashboard [36m304[0m 1032.067 ms - -[0m
+[0mGET /api/tenants [36m304[0m 250.030 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-00.t1dhgkd.mongodb.net
+[0mGET /api/tenants [36m304[0m 360.279 ms - -[0m
+[0mGET /api/tenants [36m304[0m 245.248 ms - -[0m
+[0mGET /api/tenants [36m304[0m 341.873 ms - -[0m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5001
+MongoDB connected: ac-bahzsqj-shard-00-02.t1dhgkd.mongodb.net
+[0mGET /api/tenants [36m304[0m 303.386 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 344.423 ms - -[0m
+[0mGET /api/auth/profile [36m304[0m 83.215 ms - -[0m
+[0mGET /api/tenants [36m304[0m 233.718 ms - -[0m
+[0mGET /api/admin/users [32m200[0m 213.041 ms - 271[0m
+[0mGET /api/tenants [36m304[0m 305.177 ms - -[0m

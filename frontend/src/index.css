@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@500;600;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-brand-ivory font-body text-brand-ink antialiased;
+    background:
+      radial-gradient(circle at 8% 12%, rgba(215, 181, 109, 0.12), transparent 28rem),
+      linear-gradient(125deg, rgba(25, 42, 37, 0.06), transparent 30rem),
+      linear-gradient(180deg, #FFFCF7 0%, #F6F1E8 42%, #F8F5EF 100%);
+  }
+
+  h1, h2, h3, .font-title {
+    font-family: "Playfair Display", serif;
+  }
+}
+
+@layer components {
+  .parfum-admin-bg {
+    background:
+      radial-gradient(circle at 12% 10%, rgba(216, 184, 126, 0.18), transparent 24rem),
+      radial-gradient(circle at 86% 4%, rgba(145, 83, 59, 0.12), transparent 24rem),
+      linear-gradient(180deg, #fffaf3 0%, #f6eadb 48%, #f8f1e8 100%);
+  }
+  .admin-dark body {
+    background:
+      radial-gradient(circle at 12% 10%, rgba(216, 184, 126, 0.12), transparent 24rem),
+      linear-gradient(180deg, #171111 0%, #0e0b0b 100%);
+  }
+  .admin-dark .parfum-admin-bg {
+    background:
+      radial-gradient(circle at 12% 10%, rgba(216, 184, 126, 0.12), transparent 24rem),
+      radial-gradient(circle at 86% 4%, rgba(145, 83, 59, 0.12), transparent 24rem),
+      linear-gradient(180deg, #171111 0%, #0e0b0b 100%);
+  }
+  .admin-dark .parfum-panel-solid,
+  .admin-dark .parfum-panel {
+    border-color: rgba(216, 184, 126, 0.22);
+    background: rgba(33, 24, 23, 0.92);
+    color: #fff9ef;
+  }
+  .admin-dark .parfum-label,
+  .admin-dark .parfum-panel-solid h1,
+  .admin-dark .parfum-panel-solid h2,
+  .admin-dark .parfum-panel-solid p {
+    color: #fff9ef;
+  }
+  .parfum-night {
+    background:
+      linear-gradient(145deg, rgba(216, 184, 126, 0.16), transparent 42%),
+      radial-gradient(circle at 20% 15%, rgba(255, 245, 226, 0.08), transparent 18rem),
+      linear-gradient(180deg, #130f0f 0%, #0b0909 100%);
+  }
+  .parfum-panel {
+    @apply rounded-[28px] border shadow-[0_24px_70px_rgba(82,55,37,0.10)] backdrop-blur-xl;
+    border-color: rgba(216, 184, 126, 0.3);
+    background: rgba(255, 253, 248, 0.82);
+  }
+  .parfum-panel-solid {
+    @apply rounded-[24px] border bg-[#FFFDF8] shadow-[0_22px_60px_rgba(82,55,37,0.09)];
+    border-color: rgba(216, 184, 126, 0.28);
+  }
+  .parfum-field {
+    @apply w-full rounded-[20px] border px-4 py-3 text-sm font-semibold text-[#211817] outline-none transition placeholder:text-[#9E8C7E] focus:border-[#B98D4B] focus:bg-white focus:ring-4;
+    border-color: rgba(216, 184, 126, 0.35);
+    background: rgba(255, 253, 248, 0.8);
+    --tw-ring-color: rgba(216, 184, 126, 0.18);
+  }
+  .parfum-label {
+    @apply mb-2 block text-sm font-bold text-[#211817];
+  }
+  .parfum-eyebrow {
+    @apply text-xs font-black uppercase tracking-[0.28em] text-[#B98D4B];
+  }
+  .container-page { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .premium-shell { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .premium-card { @apply rounded-[28px] border border-black/10 bg-white/75 shadow-[0_24px_80px_rgba(17,19,24,0.08)] backdrop-blur-xl; }
+  .premium-button { @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-extrabold transition duration-300; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-bold text-white shadow-soft transition duration-300 hover:-translate-y-0.5 hover:bg-gold; }
+  .btn-gold { @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-bold text-ink shadow-soft transition duration-300 hover:-translate-y-0.5 hover:bg-lightgold; }
+  .btn-outline { @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/60 bg-white/10 px-6 py-3 text-sm font-bold text-ink backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-gold hover:bg-gold hover:text-ink; }
+  .btn-whatsapp { @apply inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-sm font-bold text-white shadow-soft transition duration-300 hover:-translate-y-0.5 hover:brightness-95; }
+  .field { @apply w-full rounded-2xl border border-ink/10 bg-white/85 px-4 py-3 text-sm outline-none transition focus:border-gold focus:ring-4 focus:ring-gold/15; }
+  .label { @apply mb-2 block text-sm font-semibold text-ink; }
+  .panel { @apply rounded-[24px] border border-ink/10 bg-white shadow-soft; }
+  .glass-panel { @apply rounded-[28px] border border-gold/25 bg-white/70 shadow-luxury backdrop-blur-xl; }
+  .luxury-gradient { background: linear-gradient(135deg, #0B0B0B 0%, #151515 60%, #2A2416 100%); }
+  .gold-divider { @apply h-px w-20 bg-gradient-to-r from-transparent via-gold to-transparent; }
+  .badge-gold { @apply rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gold; }
+  .badge-soft { @apply rounded-full border border-ink/10 bg-beige px-3 py-1 text-xs font-bold uppercase tracking-wide text-ink/70; }
+  .nav-underline { @apply relative after:absolute after:-bottom-2 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:after:w-full; }
+  .animated-grain {
+    background-image:
+      linear-gradient(115deg, rgba(255,255,255,0.08), transparent 42%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.028) 0 1px, transparent 1px 7px);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .reveal-up {
+    animation: reveal-up 0.85s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .float-slow {
+    animation: float-slow 7s ease-in-out infinite;
+  }
+  .shine-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .shine-sweep::after {
+    content: "";
+    position: absolute;
+    inset: -40% -80%;
+    background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.28) 50%, transparent 58%);
+    transform: translateX(-35%) rotate(8deg);
+    transition: transform 0.9s ease;
+    pointer-events: none;
+  }
+  .shine-sweep:hover::after {
+    transform: translateX(35%) rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
