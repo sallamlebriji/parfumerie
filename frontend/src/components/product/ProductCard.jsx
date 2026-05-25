@@ -7,6 +7,7 @@ import { Button } from "../ui/Button";
 import { PriceTag } from "./PriceTag";
 import { RatingStars } from "./RatingStars";
 import { useAppStore } from "../../store/appStore";
+import { SafeImage, imageFallbacks } from "../common/SafeImage";
 
 export const ProductCard = ({ product, onQuickView }) => {
   const addToCart = useAppStore((state) => state.addToCart);
@@ -20,7 +21,7 @@ export const ProductCard = ({ product, onQuickView }) => {
   return (
     <motion.article initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} whileHover={{ y: -10 }} className="group overflow-hidden rounded-[26px] border border-[#B68A35]/15 bg-white shadow-[0_22px_65px_rgba(17,24,39,0.08)] transition duration-300 hover:shadow-[0_35px_90px_rgba(17,24,39,0.16)]">
       <div className="relative h-72 overflow-hidden bg-[#E9DDC7]">
-        <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+        <SafeImage src={product.images?.[0] || product.image} fallbackSrc={imageFallbacks.perfume} alt={product.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/36 via-transparent to-transparent opacity-70" />
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
           <Badge>{product.badge}</Badge>

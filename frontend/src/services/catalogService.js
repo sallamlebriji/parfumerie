@@ -1,6 +1,13 @@
 import api from "../api/axios";
+import { uploadsUrl } from "../api/axios";
+import { fallbackPerfumeImage } from "../data/images";
 
-const fallbackImage = "https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&w=900&q=85";
+const normalizeImage = (image) => {
+  if (!image) return fallbackPerfumeImage;
+  if (image.startsWith("http") || image.startsWith("/assets/")) return image;
+  const cleaned = image.replace(/^\/?uploads\/?/, "").replace(/^\/+/, "");
+  return `${uploadsUrl}/${cleaned}`;
+};
 
 export const toProduct = (item) => ({
   id: item._id || item.id,
@@ -25,8 +32,8 @@ export const toProduct = (item) => ({
   badge: item.badge || (item.stock <= 0 ? "rupture" : item.isFeatured ? "best-seller" : Number(item.oldPrice || 0) > Number(item.price || 0) ? "promo" : "catalogue"),
   rating: item.rating || 4.7,
   sales: item.sales || 0,
-  image: item.image || fallbackImage,
-  images: item.images?.length ? item.images : [item.image || fallbackImage],
+  image: normalizeImage(item.image),
+  images: item.images?.length ? item.images.map(normalizeImage) : [normalizeImage(item.image)],
   notes: item.notes || { top: "", middle: "", base: "" },
   tenantId: item.tenantId?._id || item.tenantId || item.parfumerie?._id || item.parfumerie || "",
   parfumerie: item.tenantId?._id || item.tenantId || item.parfumerie?._id || item.parfumerie || "",

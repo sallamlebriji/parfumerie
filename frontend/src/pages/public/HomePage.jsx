@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { catalogService } from "../../services/catalogService";
 import { products as fallbackProducts } from "../../data/products";
+import { perfumeImages } from "../../data/images";
 import {
   achievements,
   brandMarquee,
@@ -17,6 +18,7 @@ import {
 import { ProductGrid } from "../../components/product/ProductGrid";
 import { Button } from "../../components/ui/Button";
 import { SkeletonLoader } from "../../components/common/SkeletonLoader";
+import { SafeImage, imageFallbacks } from "../../components/common/SafeImage";
 import { SectionIntro } from "../../components/premium/SectionIntro";
 import { useGsapHome } from "../../hooks/useGsapHome";
 
@@ -56,9 +58,10 @@ export const HomePage = () => {
   return (
     <main className="overflow-hidden bg-brand-ivory">
       <section className="premium-hero relative min-h-[100svh] bg-brand-night text-white">
-        <img
+        <SafeImage
           className="absolute inset-0 h-full w-full object-cover opacity-45"
-          src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=2200&q=90"
+          src={perfumeImages.hero}
+          fallbackSrc={imageFallbacks.gift}
           alt="Parfumerie moderne"
         />
         <div className="absolute inset-0 bg-[linear-gradient(112deg,rgba(7,18,15,0.98)_0%,rgba(7,18,15,0.88)_42%,rgba(89,53,35,0.52)_70%,rgba(7,18,15,0.78)_100%)]" />
@@ -96,8 +99,9 @@ export const HomePage = () => {
 
           <div className="hero-reveal relative hidden lg:block">
             <div className="hero-bottle shine-sweep rounded-[34px] border border-white/15 bg-white/[0.08] p-4 shadow-[0_55px_140px_rgba(0,0,0,0.48)] backdrop-blur-2xl">
-              <img
-                src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1300&q=90"
+              <SafeImage
+                src={perfumeImages.gold}
+                fallbackSrc={imageFallbacks.perfume}
                 alt="Flacon de parfum premium"
                 className="h-[590px] w-full rounded-[26px] object-cover"
               />
@@ -155,8 +159,9 @@ export const HomePage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(215,181,109,0.2),transparent_24rem)]" />
         <div className="premium-shell relative grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="parallax-soft shine-sweep overflow-hidden rounded-[32px] border border-white/12 bg-white/8 p-3 shadow-[0_40px_120px_rgba(0,0,0,0.25)]">
-            <img
-              src="https://images.unsplash.com/photo-1600612253971-422e7f7faeb6?auto=format&fit=crop&w=1400&q=90"
+            <SafeImage
+              src={perfumeImages.rose}
+              fallbackSrc={imageFallbacks.boutique}
               alt="Experience parfum premium"
               className="min-h-[520px] w-full rounded-[24px] object-cover"
             />
@@ -210,7 +215,7 @@ export const HomePage = () => {
             {categories.slice(0, 8).map((category, index) => (
               <motion.div key={category.id || category.name} custom={index} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
                 <Link to={`/shop?category=${category.name}`} className="group relative block min-h-[340px] overflow-hidden rounded-[30px] shadow-[0_25px_80px_rgba(17,19,24,0.12)]">
-                  <img src={category.image} alt={category.name} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+                  <SafeImage src={category.image} fallbackSrc={imageFallbacks.category} alt={category.name} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-night/95 via-brand-night/24 to-transparent" />
                   <div className="absolute bottom-0 p-7 text-white">
                     <h3 className="font-display text-3xl font-black tracking-[-0.04em]">{category.name}</h3>
@@ -252,7 +257,7 @@ export const HomePage = () => {
                   className="group overflow-hidden rounded-[30px] border border-white/12 bg-white/[0.08] p-4 backdrop-blur-2xl"
                 >
                   <div className="relative h-56 overflow-hidden rounded-[24px] bg-white/10">
-                    <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy" />
+                    <SafeImage src={product.images?.[0] || product.image} fallbackSrc={imageFallbacks.perfume} alt={product.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy" />
                     <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-brand-gold px-3 py-1 text-xs font-black uppercase text-brand-ink">
                       <Percent size={14} /> Offre
                     </div>
@@ -289,7 +294,7 @@ export const HomePage = () => {
             </div>
           </div>
           <div className="relative min-h-[440px]">
-            <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59d32?auto=format&fit=crop&w=1400&q=90" alt="Flacons modernes" className="absolute inset-0 h-full w-full object-cover" />
+            <SafeImage src={perfumeImages.gift} fallbackSrc={imageFallbacks.gift} alt="Flacons modernes" className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/30 to-transparent" />
             <button className="absolute left-8 top-8 inline-flex h-14 w-14 items-center justify-center rounded-full bg-white text-brand-ink shadow-xl transition hover:scale-105" aria-label="Voir l'experience">
               <Play size={20} fill="currentColor" />

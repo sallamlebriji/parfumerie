@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Parfumerie premium</title>
+  <desc id="desc">Flacons de parfum sur un fond sombre et dore.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07120f"/>
+      <stop offset=".48" stop-color="#17231f"/>
+      <stop offset="1" stop-color="#6f4d2d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".72" cy=".24" r=".46">
+      <stop offset="0" stop-color="#f0c978" stop-opacity=".72"/>
+      <stop offset=".44" stop-color="#bb8050" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#07120f" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".72"/>
+      <stop offset=".38" stop-color="#f5dfaa" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#18251f" stop-opacity=".18"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5c56d"/>
+      <stop offset=".62" stop-color="#9b5d2f"/>
+      <stop offset="1" stop-color="#332018"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="44" stdDeviation="38" flood-color="#000000" flood-opacity=".42"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <path d="M0 755c248-91 468-87 660 12 219 112 423 118 612 17 135-72 244-92 328-61v277H0z" fill="#fff8ea" opacity=".07"/>
+  <g filter="url(#softShadow)">
+    <rect x="545" y="198" width="302" height="592" rx="74" fill="url(#glass)" stroke="#e7c77a" stroke-opacity=".38" stroke-width="4"/>
+    <rect x="618" y="304" width="156" height="332" rx="28" fill="url(#amber)" opacity=".92"/>
+    <rect x="640" y="148" width="112" height="88" rx="22" fill="#f2d28c"/>
+    <rect x="603" y="104" width="186" height="58" rx="18" fill="#f9eed6"/>
+    <rect x="634" y="426" width="126" height="106" rx="20" fill="#fff7df" opacity=".88"/>
+    <path d="M646 458h101M661 494h72" stroke="#2b2018" stroke-width="13" stroke-linecap="round" opacity=".72"/>
+  </g>
+  <g filter="url(#softShadow)" opacity=".9">
+    <rect x="860" y="282" width="220" height="430" rx="58" fill="#fff8e8" opacity=".34" stroke="#f0c978" stroke-opacity=".32" stroke-width="4"/>
+    <rect x="914" y="382" width="112" height="242" rx="23" fill="#17231f" opacity=".62"/>
+    <rect x="923" y="218" width="92" height="74" rx="19" fill="#f0c978"/>
+    <rect x="895" y="180" width="150" height="48" rx="16" fill="#fff8ea"/>
+  </g>
+  <g opacity=".7">
+    <circle cx="265" cy="190" r="120" fill="#ffffff" opacity=".05"/>
+    <circle cx="1258" cy="662" r="180" fill="#d7b56d" opacity=".08"/>
+    <path d="M110 842h1320" stroke="#f5d58c" stroke-opacity=".18" stroke-width="2"/>
+  </g>
+</svg>
