@@ -19,7 +19,9 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
+const clientOrigin = (process.env.CLIENT_URL || "http://localhost:5173").trim().replace(/\/+$/, "");
+
+app.use(cors({ origin: clientOrigin }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));

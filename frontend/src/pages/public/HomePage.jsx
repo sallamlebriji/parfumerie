@@ -60,8 +60,8 @@ export const HomePage = () => {
       <section className="premium-hero relative min-h-[100svh] bg-brand-night text-white">
         <SafeImage
           className="absolute inset-0 h-full w-full object-cover opacity-45"
-          src={perfumeImages.hero}
-          fallbackSrc={imageFallbacks.gift}
+          src={imageFallbacks.gift}
+          fallbackSrc={perfumeImages.hero}
           alt="Parfumerie moderne"
         />
         <div className="absolute inset-0 bg-[linear-gradient(112deg,rgba(7,18,15,0.98)_0%,rgba(7,18,15,0.88)_42%,rgba(89,53,35,0.52)_70%,rgba(7,18,15,0.78)_100%)]" />
@@ -100,8 +100,8 @@ export const HomePage = () => {
           <div className="hero-reveal relative hidden lg:block">
             <div className="hero-bottle shine-sweep rounded-[34px] border border-white/15 bg-white/[0.08] p-4 shadow-[0_55px_140px_rgba(0,0,0,0.48)] backdrop-blur-2xl">
               <SafeImage
-                src={perfumeImages.gold}
-                fallbackSrc={imageFallbacks.perfume}
+                src={imageFallbacks.perfume}
+                fallbackSrc={perfumeImages.gold}
                 alt="Flacon de parfum premium"
                 className="h-[590px] w-full rounded-[26px] object-cover"
               />
@@ -160,8 +160,8 @@ export const HomePage = () => {
         <div className="premium-shell relative grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="parallax-soft shine-sweep overflow-hidden rounded-[32px] border border-white/12 bg-white/8 p-3 shadow-[0_40px_120px_rgba(0,0,0,0.25)]">
             <SafeImage
-              src={perfumeImages.rose}
-              fallbackSrc={imageFallbacks.boutique}
+              src={imageFallbacks.boutique}
+              fallbackSrc={perfumeImages.rose}
               alt="Experience parfum premium"
               className="min-h-[520px] w-full rounded-[24px] object-cover"
             />
@@ -294,7 +294,7 @@ export const HomePage = () => {
             </div>
           </div>
           <div className="relative min-h-[440px]">
-            <SafeImage src={perfumeImages.gift} fallbackSrc={imageFallbacks.gift} alt="Flacons modernes" className="absolute inset-0 h-full w-full object-cover" />
+            <SafeImage src={imageFallbacks.gift} fallbackSrc={perfumeImages.gift} alt="Flacons modernes" className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/30 to-transparent" />
             <button className="absolute left-8 top-8 inline-flex h-14 w-14 items-center justify-center rounded-full bg-white text-brand-ink shadow-xl transition hover:scale-105" aria-label="Voir l'experience">
               <Play size={20} fill="currentColor" />

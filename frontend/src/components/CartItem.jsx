@@ -1,11 +1,7 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { uploadsUrl } from "../api/axios";
+import { imageUrl } from "../api/axios";
 
-const imageSrc = (image) => {
-  if (!image) return "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=500&q=80";
-  if (image.startsWith("http")) return image;
-  return `${uploadsUrl}${image.replace("/uploads", "")}`;
-};
+const imageSrc = (image) => imageUrl(image, "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=500&q=80");
 
 const CartItem = ({ item, updateQuantity, removeFromCart }) => (
   <div className="panel flex flex-wrap items-center justify-between gap-5 p-5">

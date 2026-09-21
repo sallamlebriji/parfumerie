@@ -1,18 +1,14 @@
 import { ArrowUpRight, PackageCheck, ShieldCheck, ShoppingBag, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api, { uploadsUrl } from "../api/axios";
+import api, { imageUrl } from "../api/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import PerfumeCard from "../components/PerfumeCard";
 import SectionTitle from "../components/SectionTitle";
 import WhatsAppButton from "../components/WhatsAppButton";
 import { useCart } from "../context/CartContext";
 
-const imageSrc = (image) => {
-  if (!image) return "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=900&q=80";
-  if (image.startsWith("http")) return image;
-  return `${uploadsUrl}${image.replace("/uploads", "")}`;
-};
+const imageSrc = (image) => imageUrl(image, "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=900&q=80");
 
 const PerfumeDetails = () => {
   const { id } = useParams();

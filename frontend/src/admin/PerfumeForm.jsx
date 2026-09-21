@@ -1,7 +1,7 @@
 import { Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../api/axios";
+import api, { imageUrl } from "../api/axios";
 import AdminLayout from "../components/AdminLayout";
 import ImageUpload from "../components/ImageUpload";
 
@@ -27,7 +27,7 @@ const PerfumeForm = () => {
         volume: data.volume, category: data.category, gender: data.gender, stock: data.stock, restockQuantity: "",
         isAvailable: data.isAvailable, isFeatured: data.isFeatured, top: data.notes?.top || "", middle: data.notes?.middle || "", base: data.notes?.base || ""
         });
-        if (data.image) setPreview(`${import.meta.env.VITE_UPLOADS_URL}${data.image.replace("/uploads", "")}`);
+        if (data.image) setPreview(imageUrl(data.image));
       });
     }
   }, [id]);

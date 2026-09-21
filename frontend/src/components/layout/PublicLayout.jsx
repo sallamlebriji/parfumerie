@@ -35,16 +35,18 @@ export const PublicLayout = () => {
     document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
   };
 
+  const isSolidHeader = scrolled || open;
+
   return (
     <div className="min-h-screen bg-brand-ivory text-brand-ink">
-      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled || open ? "border-b border-black/10 bg-white/86 text-brand-ink shadow-[0_18px_55px_rgba(15,23,42,0.08)] backdrop-blur-2xl" : "border-b border-white/10 bg-brand-night/40 text-white backdrop-blur-xl"}`}>
+      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${isSolidHeader ? "border-b border-black/10 bg-white/90 text-brand-ink shadow-[0_18px_55px_rgba(15,23,42,0.08)] backdrop-blur-2xl" : "border-b border-white/10 bg-brand-night/55 text-white shadow-[0_18px_60px_rgba(0,0,0,0.16)] backdrop-blur-xl"}`}>
         <nav className="premium-shell flex h-20 items-center justify-between">
           <Link to="/" className="group flex items-center gap-3">
-            <span className={`grid h-11 w-11 place-items-center rounded-2xl border text-sm font-black transition ${scrolled || open ? "border-brand-gold/30 bg-brand-ink text-brand-gold" : "border-white/20 bg-white/10 text-brand-gold"}`}>MP</span>
+            <span className={`grid h-11 w-11 place-items-center rounded-2xl border text-sm font-black transition ${isSolidHeader ? "border-brand-gold/30 bg-brand-ink text-brand-gold" : "border-white/20 bg-white/10 text-brand-gold"}`}>MP</span>
             <span className="font-display text-xl font-black tracking-[-0.03em] sm:text-2xl">Maison Parfumee</span>
           </Link>
           <div className="hidden items-center gap-7 lg:flex">
-            {nav.map(([to, label]) => <NavLink key={to} to={to} className={({ isActive }) => `relative text-sm font-extrabold transition after:absolute after:-bottom-2 after:left-0 after:h-px after:bg-brand-gold after:transition-all after:duration-300 hover:text-brand-gold ${isActive ? "text-brand-gold after:w-full" : "after:w-0 hover:after:w-full"}`}>{t(label, label)}</NavLink>)}
+            {nav.map(([to, label]) => <NavLink key={to} to={to} className={({ isActive }) => `relative text-sm font-extrabold transition after:absolute after:-bottom-2 after:left-0 after:h-px after:bg-brand-gold after:transition-all after:duration-300 hover:text-brand-gold ${isActive ? "text-brand-gold after:w-full" : `${isSolidHeader ? "text-brand-ink/74" : "text-white/82"} after:w-0 hover:after:w-full`}`}>{t(label, label)}</NavLink>)}
           </div>
           <div className="flex items-center gap-2">
             <button onClick={switchLang} className="rounded-full border border-current/15 p-3 transition hover:border-brand-gold hover:text-brand-gold" aria-label="Changer la langue"><Globe size={18} /></button>

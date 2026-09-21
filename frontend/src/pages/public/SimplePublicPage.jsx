@@ -19,7 +19,7 @@ const pageCopy = {
     highlights: ["Parcours par univers", "Selections cadeau", "Collections saisonnieres"]
   },
   brands: {
-    image: "https://images.unsplash.com/photo-1588405748880-12d1d2a59d32?auto=format&fit=crop&w=1800&q=90",
+    image: "https://images.unsplash.com/photo-1619994403073-2cec844b8e63?auto=format&fit=crop&w=1800&q=90",
     intro: "Les marques sont presentees comme des signatures de confiance, avec une lecture simple pour comparer style, prix et disponibilite.",
     highlights: ["Maisons premium", "References commerciales", "Stock actualise"]
   },

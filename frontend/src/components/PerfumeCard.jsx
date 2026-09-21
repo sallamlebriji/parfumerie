@@ -1,15 +1,11 @@
 import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
-import { uploadsUrl } from "../api/axios";
+import { imageUrl } from "../api/axios";
 import { useCart } from "../context/CartContext";
 import LuxuryButton from "./LuxuryButton";
 
-const imageSrc = (image) => {
-  if (!image) return "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=900&q=80";
-  if (image.startsWith("http")) return image;
-  return `${uploadsUrl}${image.replace("/uploads", "")}`;
-};
+const imageSrc = (image) => imageUrl(image, "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=900&q=80");
 
 const PerfumeCard = ({ perfume }) => {
   const { addToCart } = useCart();

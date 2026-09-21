@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const apiBaseURL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+  baseURL: apiBaseURL
 });
 
 api.interceptors.request.use((config) => {
@@ -12,5 +14,17 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export const uploadsUrl = import.meta.env.VITE_UPLOADS_URL || "http://localhost:5000/uploads";
+const trimSlashes = (value) => value.replace(/\/+$/, "");
+const apiOrigin = trimSlashes(apiBaseURL).replace(/\/api$/, "");
+
+export const uploadsUrl = trimSlashes(import.meta.env.VITE_UPLOADS_URL || `${apiOrigin}/uploads`);
+
+export const imageUrl = (image, fallback = "") => {
+  if (!image) return fallback;
+  const value = String(image);
+  if (/^(https?:|data:|blob:)/i.test(value) || value.startsWith("/assets/")) return value;
+  const cleaned = value.replace(/^\/?uploads\/?/, "").replace(/^\/+/, "");
+  return cleaned ? `${uploadsUrl}/${cleaned}` : fallback;
+};
+
 export default api;

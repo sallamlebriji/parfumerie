@@ -1,13 +1,8 @@
 import api from "../api/axios";
-import { uploadsUrl } from "../api/axios";
+import { imageUrl } from "../api/axios";
 import { fallbackPerfumeImage } from "../data/images";
 
-const normalizeImage = (image) => {
-  if (!image) return fallbackPerfumeImage;
-  if (image.startsWith("http") || image.startsWith("/assets/")) return image;
-  const cleaned = image.replace(/^\/?uploads\/?/, "").replace(/^\/+/, "");
-  return `${uploadsUrl}/${cleaned}`;
-};
+const normalizeImage = (image) => imageUrl(image, fallbackPerfumeImage);
 
 export const toProduct = (item) => ({
   id: item._id || item.id,

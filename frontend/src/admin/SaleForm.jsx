@@ -2,7 +2,7 @@ import { Save } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import api, { uploadsUrl } from "../api/axios";
+import api, { imageUrl } from "../api/axios";
 import AdminLayout from "../components/AdminLayout";
 
 const SaleForm = () => {
@@ -24,9 +24,7 @@ const SaleForm = () => {
 
   const selected = useMemo(() => perfumes.find((p) => p._id === form.perfumeId), [perfumes, form.perfumeId]);
   const selectedImage = selected?.image
-    ? selected.image.startsWith("http")
-      ? selected.image
-      : `${uploadsUrl}${selected.image.replace("/uploads", "")}`
+    ? imageUrl(selected.image)
     : "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=500&q=80";
   const quantity = Number(form.quantity || 0);
   const salePrice = Number(form.salePrice || selected?.price || 0);

@@ -9,6 +9,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import ImageUpload from "../../components/ImageUpload";
 import { Button } from "../../components/ui/Button";
+import { imageUrl } from "../../api/axios";
 import { adminService } from "../../services/adminService";
 import { useAuth } from "../../context/AuthContext";
 import { normalizeRole, ROLES } from "../../constants/permissions";
@@ -96,8 +97,7 @@ export const ProductFormPage = () => {
       parfumerie: product.parfumerie || ""
     });
     if (product.image) {
-      const cleaned = product.image.replace("/uploads", "");
-      setPreview(`${import.meta.env.VITE_UPLOADS_URL}${cleaned}`);
+      setPreview(imageUrl(product.image));
     }
   }, [form, product]);
 
