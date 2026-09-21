@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Crown, Gift, Mail, MessageCircle, Percent, Play, Quote, Sparkles } from "lucide-react";
+import { ArrowRight, Crown, Gift, Mail, MessageCircle, Percent, Quote, Sparkles } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { catalogService } from "../../services/catalogService";
 import { products as fallbackProducts } from "../../data/products";
-import { perfumeImages } from "../../data/images";
+import { perfumeImages, perfumeVideos } from "../../data/images";
 import {
   achievements,
   brandMarquee,
@@ -18,6 +18,7 @@ import {
 import { ProductGrid } from "../../components/product/ProductGrid";
 import { Button } from "../../components/ui/Button";
 import { SkeletonLoader } from "../../components/common/SkeletonLoader";
+import { AutoPlayVideo } from "../../components/common/AutoPlayVideo";
 import { SafeImage, imageFallbacks } from "../../components/common/SafeImage";
 import { SectionIntro } from "../../components/premium/SectionIntro";
 import { useGsapHome } from "../../hooks/useGsapHome";
@@ -295,10 +296,8 @@ export const HomePage = () => {
           </div>
           <div className="relative min-h-[440px]">
             <SafeImage src={imageFallbacks.gift} fallbackSrc={perfumeImages.gift} alt="Flacons modernes" className="absolute inset-0 h-full w-full object-cover" />
+            <AutoPlayVideo src={perfumeVideos.showcase} className="absolute inset-0 h-full w-full object-cover object-right" />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-ink/30 to-transparent" />
-            <button className="absolute left-8 top-8 inline-flex h-14 w-14 items-center justify-center rounded-full bg-white text-brand-ink shadow-xl transition hover:scale-105" aria-label="Voir l'experience">
-              <Play size={20} fill="currentColor" />
-            </button>
           </div>
         </div>
       </section>

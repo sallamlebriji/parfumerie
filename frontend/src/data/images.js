@@ -7,4 +7,8 @@ export const perfumeImages = {
   gift: "/assets/perfume/gift-set.svg"
 };
 
+export const perfumeVideos = {
+  showcase: "/assets/perfume/mixkit-pressing-down-on-a-bottle-of-perfume-20766-hd-ready.mp4"
+};
+
 export const fallbackPerfumeImage = perfumeImages.gold;
