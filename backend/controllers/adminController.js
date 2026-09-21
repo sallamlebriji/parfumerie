@@ -172,6 +172,9 @@ export const getDashboard = async (req, res) => {
   });
 };
 
+// Le tunnel de commande enregistre « Livraison … · Paiement … · note » dans le champ notes.
+const noteSegment = (notes, prefixes) => String(notes || "").split(" · ").find((part) => prefixes.some((prefix) => part.startsWith(prefix))) || "";
+
 export const getOrdersForAdmin = async (req, res) => {
   const orders = await Order.find(scopedQuery(req)).populate("tenantId parfumerie", "name city").sort({ createdAt: -1 }).limit(250);
   res.json(orders.map((order) => ({
@@ -180,8 +183,8 @@ export const getOrdersForAdmin = async (req, res) => {
     phone: order.phone,
     city: order.city,
     total: order.totalAmount,
-    payment: "Livraison",
-    delivery: order.city,
+    payment: noteSegment(order.notes, ["Paiement"]) || "Livraison",
+    delivery: noteSegment(order.notes, ["Livraison", "Retrait"]) || order.city,
     status: order.status,
     tenant: order.tenantId?.name || order.parfumerie?.name || "Parfumerie principale",
     parfumerie: order.tenantId?.name || order.parfumerie?.name || "Parfumerie principale",
