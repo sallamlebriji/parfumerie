@@ -183,7 +183,7 @@ export const getOrdersForAdmin = async (req, res) => {
     phone: order.phone,
     city: order.city,
     total: order.totalAmount,
-    payment: noteSegment(order.notes, ["Paiement"]) || "Livraison",
+    payment: noteSegment(order.notes, ["Paiement", "Virement"]) || "Livraison",
     delivery: noteSegment(order.notes, ["Livraison", "Retrait"]) || order.city,
     status: order.status,
     tenant: order.tenantId?.name || order.parfumerie?.name || "Parfumerie principale",

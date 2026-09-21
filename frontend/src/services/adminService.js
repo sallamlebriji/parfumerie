@@ -9,6 +9,11 @@ const get = async (url) => {
 export const adminService = {
   dashboard: () => get("/admin/dashboard"),
   orders: () => get("/admin/orders"),
+  orderDetails: (id) => get(`/orders/${id}`),
+  updateOrderStatus: async ({ id, status }) => {
+    const { data } = await api.put(`/orders/${id}/status`, { status });
+    return data;
+  },
   customers: () => get("/admin/customers"),
   stocks: () => get("/admin/stocks"),
   promotions: () => get("/admin/promotions"),

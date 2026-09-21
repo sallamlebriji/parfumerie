@@ -7,7 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { adminService } from "../../services/adminService";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
+import { Modal } from "../../components/ui/Modal";
 import { DataTable } from "../../components/tables/DataTable";
+import { exportCsv } from "../../utils/csv";
 import { formatPrice } from "../../utils/format";
 import { exportElementToPdf } from "../../utils/pdf";
 import { useAuth } from "../../context/AuthContext";
@@ -28,6 +30,14 @@ const config = {
   settings: { title: "Parametres systeme", query: adminService.settings, description: "Boutique, WhatsApp, taxes, livraison et seuils de stock reserves au superadmin.", columns: [] }
 };
 
+const orderStatusLabels = { pending: "En attente", confirmed: "Confirmée", delivered: "Livrée", cancelled: "Annulée" };
+const orderStatusTone = {
+  pending: "border-[#D8B87E]/50 bg-[#FFF5E7] text-[#6F5A4A]",
+  confirmed: "border-emerald-300 bg-emerald-50 text-emerald-800",
+  delivered: "border-[#B98D4B]/50 bg-[#F6E7CA] text-[#7F5F25]",
+  cancelled: "border-red-300 bg-red-50 text-red-800"
+};
+
 export const AdminModulePage = ({ type }) => {
   const page = config[type] || config.products;
   const { user } = useAuth();
@@ -35,6 +45,7 @@ export const AdminModulePage = ({ type }) => {
   const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const { data = type === "settings" ? null : [] } = useQuery({ queryKey: [type], queryFn: page.query, retry: false });
   const tableData = Array.isArray(data) ? data : [];
 
@@ -46,6 +57,16 @@ export const AdminModulePage = ({ type }) => {
       toast.success("Parfum supprime");
     },
     onError: (error) => toast.error(error.response?.data?.message || "Suppression impossible")
+  });
+
+  const statusMutation = useMutation({
+    mutationFn: adminService.updateOrderStatus,
+    onSuccess: () => {
+      ["orders", "payments", "reports", "customers", "dashboard"].forEach((key) => queryClient.invalidateQueries({ queryKey: [key] }));
+      queryClient.invalidateQueries({ queryKey: ["order"] });
+      toast.success("Statut de la commande mis à jour");
+    },
+    onError: (error) => toast.error(error.response?.data?.message || "Mise à jour impossible")
   });
 
   const categories = useMemo(() => [...new Set(tableData.map((item) => item.category).filter(Boolean))], [tableData]);
@@ -63,7 +84,7 @@ export const AdminModulePage = ({ type }) => {
     cell: ({ getValue }) => {
       const value = getValue();
       if (key === "price" || key === "total" || key === "spent" || key === "min") return formatPrice(value);
-      if (key === "status" || key === "badge" || key === "active") return <Badge tone={badgeTone(value)}>{String(value)}</Badge>;
+      if (key === "status" || key === "badge" || key === "active") return <Badge tone={badgeTone(value)}>{orderStatusLabels[value] || String(value)}</Badge>;
       if (key === "stock" || key === "available") return <span className={`font-black ${Number(value) <= 5 ? "text-red-600" : "text-[#0B0B0F]"}`}>{String(value ?? "-")}</span>;
       return <span className="font-semibold">{String(value ?? "-")}</span>;
     }
@@ -85,7 +106,47 @@ export const AdminModulePage = ({ type }) => {
         }
       ];
     }
-    if (type === "orders" || type === "customers") {
+    if (type === "orders") {
+      return [
+        { accessorKey: "id", header: "RÉFÉRENCE", cell: ({ getValue }) => <span className="font-mono text-xs font-black tracking-[0.16em]">{String(getValue()).slice(-6).toUpperCase()}</span> },
+        { accessorKey: "customer", header: "CLIENT", cell: ({ getValue }) => <span className="font-semibold">{getValue()}</span> },
+        { accessorKey: "phone", header: "TÉLÉPHONE" },
+        { accessorKey: "delivery", header: "LIVRAISON" },
+        { accessorKey: "payment", header: "PAIEMENT" },
+        { accessorKey: "total", header: "TOTAL", cell: ({ getValue }) => <strong>{formatPrice(getValue())}</strong> },
+        {
+          accessorKey: "status",
+          header: "STATUT",
+          cell: ({ row }) => (
+            <select
+              aria-label="Statut de la commande"
+              value={row.original.status}
+              disabled={statusMutation.isPending}
+              onChange={(event) => statusMutation.mutate({ id: row.original.id, status: event.target.value })}
+              className={`rounded-full border px-3 py-1.5 text-xs font-bold outline-none focus:ring-2 focus:ring-[#D8B87E]/40 ${orderStatusTone[row.original.status] || ""}`}
+            >
+              {Object.entries(orderStatusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            </select>
+          )
+        },
+        { accessorKey: "date", header: "DATE" },
+        {
+          id: "actions",
+          header: "ACTIONS",
+          cell: ({ row }) => {
+            const phone = row.original.phone;
+            const href = phone ? `https://wa.me/${String(phone).replace(/\D/g, "")}` : "#";
+            return (
+              <div className="flex items-center gap-2">
+                <a href={href} target="_blank" rel="noreferrer" aria-label="Écrire au client sur WhatsApp" className="rounded-xl border border-green-100 bg-green-50 p-2 text-green-700 transition hover:bg-green-100"><MessageCircle size={16} /></a>
+                <button type="button" onClick={() => setSelectedOrder(row.original)} aria-label="Voir la commande" className="rounded-xl border border-black/10 bg-white p-2 transition hover:border-[#C8A96A]"><Eye size={16} /></button>
+              </div>
+            );
+          }
+        }
+      ];
+    }
+    if (type === "customers") {
       return [
         ...baseColumns,
         {
@@ -94,18 +155,13 @@ export const AdminModulePage = ({ type }) => {
           cell: ({ row }) => {
             const phone = row.original.phone;
             const href = phone ? `https://wa.me/${String(phone).replace(/\D/g, "")}` : "#";
-            return (
-              <div className="flex items-center gap-2">
-                <a href={href} target="_blank" rel="noreferrer" className="rounded-xl border border-green-100 bg-green-50 p-2 text-green-700 transition hover:bg-green-100"><MessageCircle size={16} /></a>
-                {type === "orders" && <button className="rounded-xl border border-black/10 bg-white p-2"><Eye size={16} /></button>}
-              </div>
-            );
+            return <a href={href} target="_blank" rel="noreferrer" aria-label="Écrire au client sur WhatsApp" className="inline-flex rounded-xl border border-green-100 bg-green-50 p-2 text-green-700 transition hover:bg-green-100"><MessageCircle size={16} /></a>;
           }
         }
       ];
     }
     return baseColumns;
-  }, [baseColumns, deleteMutation, type]);
+  }, [baseColumns, deleteMutation, statusMutation, type]);
 
   if (type === "settings") {
     return <SettingsPage page={page} settings={data} canEdit={[ROLES.SUPER_ADMIN, ROLES.ADMIN_TENANT].includes(role)} />;
@@ -126,9 +182,8 @@ export const AdminModulePage = ({ type }) => {
           <div><p className="text-xs font-extrabold uppercase tracking-[0.35em] text-[#D8B87E]">Module admin</p><h1 className="mt-3 font-title text-4xl font-black sm:text-5xl">{page.title}</h1><p className="mt-4 max-w-2xl text-sm leading-7 text-[#F8EAD7]/62">{page.description}</p></div>
           <div className="flex flex-wrap gap-2">
             {type === "products" && <Button as={Link} to="/admin/products/new"><Plus size={17} /> Ajouter</Button>}
-            {type !== "products" && <Button><Plus size={17} /> Nouveau</Button>}
             <Button variant="outline" onClick={() => exportElementToPdf("admin-table", `${type}.pdf`)}><FileText size={17} /> PDF</Button>
-            <Button variant="outline"><Download size={17} /> Export</Button>
+            <Button variant="outline" onClick={() => exportCsv(filteredData, page.columns, `${type}.csv`)}><Download size={17} /> CSV</Button>
           </div>
         </div>
       </section>
@@ -162,7 +217,55 @@ export const AdminModulePage = ({ type }) => {
           }
         />
       </section>
+      {type === "orders" && (
+        <OrderDetailsModal
+          order={selectedOrder ? tableData.find((item) => item.id === selectedOrder.id) || selectedOrder : null}
+          onClose={() => setSelectedOrder(null)}
+          onStatus={(status) => statusMutation.mutate({ id: selectedOrder.id, status })}
+          updating={statusMutation.isPending}
+        />
+      )}
     </main>
+  );
+};
+
+const OrderDetailsModal = ({ order, onClose, onStatus, updating }) => {
+  const { data, isLoading, isError } = useQuery({ queryKey: ["order", order?.id], queryFn: () => adminService.orderDetails(order.id), enabled: Boolean(order), retry: false });
+  const phone = String(order?.phone || "").replace(/\D/g, "");
+  return (
+    <Modal open={Boolean(order)} onClose={onClose} title={order ? `Commande ${String(order.id).slice(-6).toUpperCase()}` : ""}>
+      {order && (
+        <div className="grid gap-6 text-sm">
+          <dl className="grid gap-4 sm:grid-cols-2">
+            <div><dt className="text-xs font-bold uppercase tracking-[0.16em] text-[#6F5A4A]">Client</dt><dd className="mt-1 font-semibold">{order.customer}</dd></div>
+            <div>
+              <dt className="text-xs font-bold uppercase tracking-[0.16em] text-[#6F5A4A]">Téléphone</dt>
+              <dd className="mt-1 flex items-center gap-2 font-semibold">{order.phone}{phone && <a href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer" aria-label="Écrire au client sur WhatsApp" className="rounded-lg border border-green-100 bg-green-50 p-1.5 text-green-700"><MessageCircle size={14} /></a>}</dd>
+            </div>
+            <div><dt className="text-xs font-bold uppercase tracking-[0.16em] text-[#6F5A4A]">Livraison</dt><dd className="mt-1">{data ? [data.address, data.city].filter((part) => part && part !== "—").join(", ") : order.delivery}</dd></div>
+            <div><dt className="text-xs font-bold uppercase tracking-[0.16em] text-[#6F5A4A]">Date</dt><dd className="mt-1">{order.date}</dd></div>
+          </dl>
+          {data?.notes && <p className="rounded-2xl bg-[#F6E7CA]/60 p-4 leading-6"><span className="font-bold">Note : </span>{data.notes}</p>}
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#6F5A4A]">Articles</p>
+            {isLoading ? <p className="mt-3 text-[#6F5A4A]">Chargement…</p> : isError ? <p className="mt-3 text-red-700">Impossible de charger le détail de la commande.</p> : (
+              <ul className="mt-3 divide-y divide-[#E8D7B9]">
+                {(data?.products || []).map((item, index) => (
+                  <li key={`${item.name}-${index}`} className="flex justify-between gap-4 py-3"><span>{item.name} <span className="text-[#6F5A4A]">· {item.volume} × {item.quantity}</span></span><strong>{formatPrice(item.price * item.quantity)}</strong></li>
+                ))}
+              </ul>
+            )}
+            <p className="mt-2 flex justify-between border-t border-[#E8D7B9] pt-4 text-base font-black"><span>Total</span><span>{formatPrice(order.total)}</span></p>
+          </div>
+          <label className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#D8B87E]/30 bg-white p-4">
+            <span className="font-bold">Statut de la commande</span>
+            <select value={order.status} disabled={updating} onChange={(event) => onStatus(event.target.value)} className={`rounded-full border px-4 py-2 text-sm font-bold outline-none focus:ring-2 focus:ring-[#D8B87E]/40 ${orderStatusTone[order.status] || ""}`}>
+              {Object.entries(orderStatusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            </select>
+          </label>
+        </div>
+      )}
+    </Modal>
   );
 };
 

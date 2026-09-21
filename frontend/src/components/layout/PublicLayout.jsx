@@ -1,93 +1,140 @@
-import { ArrowRight, Globe, Menu, MessageCircle, ShoppingBag, X } from "lucide-react";
+import { ArrowUpRight, Heart, Menu, MessageCircle, ShoppingBag, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, Outlet } from "react-router-dom";
-import i18n from "../../i18n";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAppStore } from "../../store/appStore";
-import { Button } from "../ui/Button";
+import { whatsappUrl } from "../../utils/format";
+import { LanguageSwitch } from "../common/LanguageSwitch";
+import { Logo } from "../common/Logo";
 
 const nav = [
-  ["/", "home"],
-  ["/shop", "shop"],
-  ["/collections", "collections"],
-  ["/brands", "brands"],
-  ["/about", "A propos"],
-  ["/contact", "Contact"]
+  ["/", "nav.home"],
+  ["/shop", "nav.shop"],
+  ["/collections", "nav.collections"],
+  ["/brands", "nav.brands"],
+  ["/about", "nav.about"],
+  ["/contact", "nav.contact"]
 ];
 
+// Les pages dont le haut est clair (fiche produit) ont un en-tête plein dès le départ.
+const hasLightTop = (pathname) => /^\/shop\/.+/.test(pathname);
+
+const IconLink = ({ to, label, count, children }) => (
+  <Link to={to} aria-label={count ? `${label} (${count})` : label} className="relative grid h-11 w-11 place-items-center rounded-full transition hover:bg-brand-gold/15 hover:text-brand-gold">
+    {children}
+    {count > 0 && <span className="absolute -end-0.5 -top-0.5 grid min-w-[1.2rem] place-items-center rounded-full bg-brand-gold px-1 text-[0.66rem] font-extrabold leading-[1.2rem] text-brand-night">{count}</span>}
+  </Link>
+);
+
 export const PublicLayout = () => {
+  const { t } = useTranslation();
+  const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { t } = useTranslation();
-  const cart = useAppStore((state) => state.cart);
-  const whatsapp = `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || ""}?text=${encodeURIComponent("Bonjour, je souhaite commander un parfum.")}`;
+  const cartCount = useAppStore((state) => state.cart.reduce((sum, line) => sum + line.quantity, 0));
+  const favoritesCount = useAppStore((state) => state.favorites.length);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const switchLang = () => {
-    const next = i18n.language === "fr" ? "en" : i18n.language === "en" ? "ar" : "fr";
-    i18n.changeLanguage(next);
-    document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
-  };
+  useEffect(() => {
+    setOpen(false);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
 
-  const isSolidHeader = scrolled || open;
+  const solid = scrolled || open || hasLightTop(pathname);
+  const linkClass = ({ isActive }) => `relative py-2 text-sm font-semibold transition after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-center after:bg-brand-gold after:transition-transform ${isActive ? "text-brand-gold after:scale-x-100" : "after:scale-x-0 hover:text-brand-gold hover:after:scale-x-100"}`;
 
   return (
     <div className="min-h-screen bg-brand-ivory text-brand-ink">
-      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${isSolidHeader ? "border-b border-black/10 bg-white/90 text-brand-ink shadow-[0_18px_55px_rgba(15,23,42,0.08)] backdrop-blur-2xl" : "border-b border-white/10 bg-brand-night/55 text-white shadow-[0_18px_60px_rgba(0,0,0,0.16)] backdrop-blur-xl"}`}>
-        <nav className="premium-shell flex h-20 items-center justify-between">
-          <Link to="/" className="group flex items-center gap-3">
-            <span className={`grid h-11 w-11 place-items-center rounded-2xl border text-sm font-black transition ${isSolidHeader ? "border-brand-gold/30 bg-brand-ink text-brand-gold" : "border-white/20 bg-white/10 text-brand-gold"}`}>MP</span>
-            <span className="font-display text-xl font-black tracking-[-0.03em] sm:text-2xl">Maison Parfumee</span>
-          </Link>
-          <div className="hidden items-center gap-7 lg:flex">
-            {nav.map(([to, label]) => <NavLink key={to} to={to} className={({ isActive }) => `relative text-sm font-extrabold transition after:absolute after:-bottom-2 after:left-0 after:h-px after:bg-brand-gold after:transition-all after:duration-300 hover:text-brand-gold ${isActive ? "text-brand-gold after:w-full" : `${isSolidHeader ? "text-brand-ink/74" : "text-white/82"} after:w-0 hover:after:w-full`}`}>{t(label, label)}</NavLink>)}
+      <a href="#main" className="sr-only z-[100] rounded-full bg-brand-gold px-4 py-2 text-sm font-bold text-brand-night focus:not-sr-only focus:fixed focus:start-4 focus:top-4">{t("nav.skip")}</a>
+
+      <header className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${solid ? "bg-brand-ivory/95 text-brand-ink shadow-[0_1px_0_rgba(21,19,15,0.08)] backdrop-blur-md" : "bg-transparent text-white"}`}>
+        <nav className="page-shell flex h-[4.5rem] items-center justify-between gap-4" aria-label="Navigation principale">
+          <Link to="/" aria-label="Maison Parfumée" className="shrink-0"><Logo /></Link>
+          <div className="hidden items-center gap-8 lg:flex">
+            {nav.map(([to, key]) => <NavLink key={to} to={to} end={to === "/"} className={linkClass}>{t(key)}</NavLink>)}
           </div>
-          <div className="flex items-center gap-2">
-            <button onClick={switchLang} className="rounded-full border border-current/15 p-3 transition hover:border-brand-gold hover:text-brand-gold" aria-label="Changer la langue"><Globe size={18} /></button>
-            <Link to="/cart" className="relative rounded-full border border-current/15 p-3 transition hover:border-brand-gold hover:text-brand-gold" aria-label="Panier">
-              <ShoppingBag size={18} />
-              {cart.length > 0 && <span className="absolute -right-1 -top-1 rounded-full bg-brand-gold px-2 py-0.5 text-xs font-black text-brand-ink">{cart.length}</span>}
-            </Link>
-            <Button as={Link} to="/checkout" className="hidden sm:inline-flex">{t("orderNow")}</Button>
-            <button onClick={() => setOpen((value) => !value)} className="rounded-full border border-current/15 p-3 lg:hidden" aria-label="Menu">{open ? <X size={18} /> : <Menu size={18} />}</button>
+          <div className="flex items-center gap-1">
+            <LanguageSwitch className={`me-1 hidden sm:inline-flex ${solid ? "border-brand-ink/20" : "border-white/25"}`} />
+            <IconLink to="/favorites" label={t("nav.favorites")} count={favoritesCount}><Heart size={20} /></IconLink>
+            <IconLink to="/cart" label={t("nav.cart")} count={cartCount}><ShoppingBag size={20} /></IconLink>
+            <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? t("nav.close") : t("nav.menu")} className="grid h-11 w-11 place-items-center rounded-full transition hover:bg-brand-gold/15 lg:hidden">
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
         </nav>
-        {open && <div className="premium-shell grid gap-2 pb-5 lg:hidden">{nav.map(([to, label]) => <NavLink key={to} to={to} onClick={() => setOpen(false)} className="rounded-2xl px-4 py-3 text-sm font-bold hover:bg-black/5">{t(label, label)}</NavLink>)}</div>}
+        {open && (
+          <div id="mobile-menu" className="page-shell pb-6 lg:hidden">
+            <div className="grid gap-1 border-t border-brand-ink/10 pt-3">
+              {nav.map(([to, key]) => (
+                <NavLink key={to} to={to} end={to === "/"} className={({ isActive }) => `rounded-xl px-3 py-3 text-base font-semibold ${isActive ? "bg-brand-gold/15 text-brand-golddeep" : "hover:bg-brand-ink/5"}`}>{t(key)}</NavLink>
+              ))}
+              <NavLink to="/track-order" className="rounded-xl px-3 py-3 text-base font-semibold hover:bg-brand-ink/5">{t("nav.track")}</NavLink>
+            </div>
+            <div className="mt-4 flex items-center justify-between gap-3">
+              <LanguageSwitch className="border-brand-ink/20" />
+              <a href={whatsappUrl(t("contact.defaultMessage"))} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-bold text-white"><MessageCircle size={17} /> WhatsApp</a>
+            </div>
+          </div>
+        )}
       </header>
-      <Outlet />
+
+      <div id="main" tabIndex={-1} className="outline-none"><Outlet /></div>
+
       <a
-        href={whatsapp}
+        href={whatsappUrl(t("contact.defaultMessage"))}
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-whatsapp px-5 py-4 text-sm font-black text-white shadow-[0_22px_65px_rgba(37,211,102,0.34)] transition hover:-translate-y-1 hover:brightness-95"
-        aria-label="Commander via WhatsApp"
+        aria-label={t("common.writeOnWhatsapp")}
+        className="fixed bottom-5 end-5 z-40 inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-3.5 text-sm font-bold text-white shadow-[0_16px_40px_-10px_rgba(31,168,85,0.7)] transition hover:-translate-y-0.5 hover:brightness-110"
       >
-        <MessageCircle size={19} />
+        <MessageCircle size={20} />
         <span className="hidden sm:inline">WhatsApp</span>
       </a>
-      <footer className="relative overflow-hidden bg-brand-ink text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_18%,rgba(215,181,109,0.22),transparent_30rem)]" />
-        <div className="premium-shell relative py-16">
-          <div className="grid gap-8 rounded-[34px] border border-white/10 bg-white/8 p-8 backdrop-blur-xl lg:grid-cols-[1fr_auto] lg:items-end">
+
+      <footer className="bg-brand-night text-white/80">
+        <div className="page-shell py-16">
+          <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.3em] text-brand-gold">Maison Parfumee</p>
-              <h2 className="mt-3 max-w-3xl font-display text-4xl font-black leading-tight tracking-[-0.04em]">Une boutique digitale de parfumerie premium, claire et commerciale.</h2>
+              <Logo className="text-white" />
+              <p className="mt-6 max-w-sm text-sm leading-7 text-white/65">{t("footer.tagline")}</p>
+              <a href={whatsappUrl(t("contact.defaultMessage"))} target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-bold text-white transition hover:border-brand-gold hover:text-brand-gold">
+                <MessageCircle size={17} /> {t("common.writeOnWhatsapp")} <ArrowUpRight size={15} className="rtl:-scale-x-100" />
+              </a>
             </div>
-            <Button as={Link} to="/shop" className="bg-white text-brand-ink hover:bg-brand-gold">Explorer <ArrowRight size={17} /></Button>
+            <div>
+              <h2 className="font-body text-xs font-bold uppercase tracking-[0.22em] text-brand-gold">{t("footer.shop")}</h2>
+              <ul className="mt-5 grid gap-3 text-sm">
+                <li><Link className="transition hover:text-brand-gold" to="/shop">{t("nav.shop")}</Link></li>
+                <li><Link className="transition hover:text-brand-gold" to="/collections">{t("nav.collections")}</Link></li>
+                <li><Link className="transition hover:text-brand-gold" to="/brands">{t("nav.brands")}</Link></li>
+                <li><Link className="transition hover:text-brand-gold" to="/favorites">{t("nav.favorites")}</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="font-body text-xs font-bold uppercase tracking-[0.22em] text-brand-gold">{t("footer.help")}</h2>
+              <ul className="mt-5 grid gap-3 text-sm">
+                <li><Link className="transition hover:text-brand-gold" to="/track-order">{t("nav.track")}</Link></li>
+                <li><Link className="transition hover:text-brand-gold" to="/faq">{t("faq.title")}</Link></li>
+                <li><Link className="transition hover:text-brand-gold" to="/about">{t("nav.about")}</Link></li>
+                <li><Link className="transition hover:text-brand-gold" to="/contact">{t("nav.contact")}</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="font-body text-xs font-bold uppercase tracking-[0.22em] text-brand-gold">{t("nav.language")}</h2>
+              <div className="mt-5"><LanguageSwitch className="border-white/25" /></div>
+              <ul className="mt-6 grid gap-2 text-sm text-white/65">
+                <li>{t("footer.confirmation")}</li>
+                <li>{t("footer.payments")}</li>
+              </ul>
+            </div>
           </div>
-          <div className="mt-10 grid gap-8 md:grid-cols-4">
-            {["Catalogue", "Collections", "Marques", "Contact"].map((item) => <div key={item}><h4 className="font-display font-black">{item}</h4><p className="mt-3 text-sm leading-7 text-white/58">Experience luxe, commande simple et suivi WhatsApp.</p></div>)}
-          </div>
-          <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/52 sm:flex-row sm:items-center sm:justify-between">
-            <p>© 2026 Maison Parfumee. Tous droits reserves.</p>
-            <p>React, Tailwind, Framer Motion et GSAP.</p>
-          </div>
+          <p className="mt-14 border-t border-white/10 pt-6 text-xs text-white/50">{t("footer.rights", { year: new Date().getFullYear() })}</p>
         </div>
       </footer>
     </div>

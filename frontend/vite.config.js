@@ -6,11 +6,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        // Seul le socle React est isolé : les bibliothèques réservées à l'admin (graphiques, animations)
+        // suivent naturellement les pages chargées à la demande et ne pèsent plus sur la boutique.
         manualChunks: {
-          react: ["react", "react-dom", "react-router-dom"],
-          motion: ["framer-motion", "gsap"],
-          charts: ["recharts", "@tanstack/react-table"],
-          forms: ["react-hook-form", "@hookform/resolvers", "zod"]
+          react: ["react", "react-dom", "react-router-dom"]
         }
       }
     }

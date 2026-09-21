@@ -1,10 +1,10 @@
-import { Sparkles } from "lucide-react";
+import { Search } from "lucide-react";
 
-export const EmptyState = ({ title = "Aucun resultat", text = "Essayez de modifier vos filtres.", action }) => (
-  <div className="rounded-[28px] border border-[#C8A96A]/20 bg-white/75 p-10 text-center shadow-[0_25px_70px_rgba(0,0,0,0.08)] backdrop-blur">
-    <Sparkles className="mx-auto text-[#C8A96A]" size={34} />
-    <h3 className="mt-5 font-title text-3xl font-black">{title}</h3>
-    <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#8A8A8A]">{text}</p>
-    {action && <div className="mt-6">{action}</div>}
+export const EmptyState = ({ title = "Aucun résultat", text = "Essayez de modifier vos filtres.", action, icon: Icon = Search }) => (
+  <div className="rounded-3xl border border-dashed border-brand-ink/20 bg-white/50 px-6 py-14 text-center">
+    <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-gold/15 text-brand-golddeep"><Icon size={24} /></span>
+    <h3 className="mt-5 font-display text-2xl font-semibold">{title}</h3>
+    <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-brand-muted">{text}</p>
+    {action && <div className="mt-6 flex justify-center">{action}</div>}
   </div>
 );

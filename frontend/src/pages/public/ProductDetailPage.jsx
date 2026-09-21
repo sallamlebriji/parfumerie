@@ -1,84 +1,147 @@
-import { ArrowRight, BadgeCheck, Droplets, MessageCircle, ShieldCheck, ShoppingBag, Sparkles, Truck } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Check, Heart, MessageCircle, ShoppingBag } from "lucide-react";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { catalogService } from "../../services/catalogService";
-import { products as fallbackProducts } from "../../data/products";
-import { Button } from "../../components/ui/Button";
-import { Badge } from "../../components/ui/Badge";
+import { useTranslation } from "react-i18next";
+import { Link, useParams } from "react-router-dom";
+import { QuantitySelector } from "../../components/cart/QuantitySelector";
+import { EmptyState } from "../../components/common/EmptyState";
+import { SafeImage, imageFallbacks } from "../../components/common/SafeImage";
+import { NotesPyramid } from "../../components/product/NotesPyramid";
 import { PriceTag } from "../../components/product/PriceTag";
-import { RatingStars } from "../../components/product/RatingStars";
 import { ProductGrid } from "../../components/product/ProductGrid";
+import { Button } from "../../components/ui/Button";
+import { useCatalog, useProduct } from "../../hooks/useCatalog";
+import { usePageTitle } from "../../hooks/usePageTitle";
 import { useAppStore } from "../../store/appStore";
+import { optimizeImage, whatsappUrl } from "../../utils/format";
+import { categoryLabel, familyKey } from "../../utils/labels";
 
 export const ProductDetailPage = () => {
   const { id } = useParams();
-  const { data: remoteProduct } = useQuery({ queryKey: ["product", id], queryFn: () => catalogService.product(id), retry: 1 });
-  const { data: remoteProducts = [] } = useQuery({ queryKey: ["products"], queryFn: catalogService.products, retry: 1 });
+  const { t } = useTranslation();
+  const { products } = useCatalog();
+  const { product, isLoading, notFound } = useProduct(id);
   const addToCart = useAppStore((state) => state.addToCart);
-  const products = remoteProducts.length ? remoteProducts : fallbackProducts;
-  const product = remoteProduct || fallbackProducts.find((item) => item.id === id);
-  if (!product) return null;
-  const similar = products.filter((item) => item.id !== product.id && item.family === product.family).slice(0, 4);
-  const add = () => { addToCart(product); toast.success("Ajoute au panier"); };
-  const whatsapp = `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(`Bonjour, je souhaite commander ${product.name} - ${product.volume}`)}`;
+  const favorite = useAppStore((state) => state.favorites.includes(id));
+  const toggleFavorite = useAppStore((state) => state.toggleFavorite);
+  const [quantity, setQuantity] = useState(1);
+  usePageTitle(product?.name);
 
-  return (
-    <main className="pb-20">
-      <section className="relative overflow-hidden bg-[#0B0B0F] pt-28 text-white">
-        <img src={product.images[0]} alt="" className="absolute inset-0 h-full w-full object-cover opacity-20 blur-sm" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(200,169,106,0.22),transparent_30rem),linear-gradient(115deg,rgba(0,0,0,0.96),rgba(11,11,15,0.86),rgba(31,41,55,0.62))]" />
-        <div className="relative mx-auto grid min-h-[660px] max-w-7xl items-center gap-10 px-4 pb-20 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="rounded-[42px] border border-[#C8A96A]/25 bg-white/[0.08] p-5 backdrop-blur-2xl"><img src={product.images[0]} alt={product.name} className="h-[560px] w-full rounded-[34px] object-cover" /></div>
-          <div>
-            <Badge>{product.category}</Badge>
-            <h1 className="mt-5 font-title text-6xl font-black leading-[0.98]">{product.name}</h1>
-            <p className="mt-3 text-[#D6B56D]">{product.brand}</p>
-            <div className="mt-5"><RatingStars value={product.rating} /></div>
-            <div className="mt-6"><PriceTag price={product.price} oldPrice={product.oldPrice} /></div>
-            <p className="mt-6 max-w-2xl leading-8 text-white/70">{product.description}</p>
-            <div className="mt-7 grid gap-3 sm:grid-cols-3">{["top", "middle", "base"].map((key) => <div key={key} className="rounded-[20px] border border-[#C8A96A]/20 bg-white/10 p-5"><p className="text-xs font-bold uppercase tracking-widest text-[#D6B56D]">{key === "top" ? "Tete" : key === "middle" ? "Coeur" : "Fond"}</p><p className="mt-2 text-sm text-white/75">{product.notes[key]}</p></div>)}</div>
-            <div className="mt-8 flex flex-wrap gap-3"><Button onClick={add}><ShoppingBag size={18} /> Ajouter au panier</Button><Button as="a" href={whatsapp} target="_blank" variant="success"><MessageCircle size={18} /> Commander via WhatsApp</Button></div>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {[
-                [ShieldCheck, "Authenticite", "Selection verifiee"],
-                [Truck, "Livraison", "Confirmation rapide"],
-                [BadgeCheck, "Conseil", "Accompagnement humain"]
-              ].map(([Icon, title, text]) => (
-                <div key={title} className="rounded-[18px] border border-white/10 bg-white/[0.07] p-4">
-                  <Icon className="text-[#D6B56D]" size={20} />
-                  <p className="mt-3 text-sm font-black">{title}</p>
-                  <p className="mt-1 text-xs text-white/55">{text}</p>
-                </div>
-              ))}
-            </div>
+  if (isLoading) {
+    return (
+      <main className="page-shell pb-24 pt-32" aria-busy="true">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+          <div className="mx-auto aspect-[4/5] w-full max-w-lg animate-pulse rounded-t-full bg-brand-sand/70" />
+          <div className="space-y-5 pt-6">
+            <div className="h-4 w-28 animate-pulse rounded-full bg-brand-sand/70" />
+            <div className="h-12 w-3/4 animate-pulse rounded-full bg-brand-sand/70" />
+            <div className="h-8 w-40 animate-pulse rounded-full bg-brand-sand/70" />
+            <div className="h-24 animate-pulse rounded-2xl bg-brand-sand/70" />
           </div>
         </div>
-      </section>
-      <section className="mx-auto grid max-w-7xl gap-6 px-4 py-16 sm:px-6 lg:grid-cols-3 lg:px-8">
-        <article className="rounded-[28px] border border-black/10 bg-white/80 p-7 shadow-[0_25px_80px_rgba(17,19,24,0.08)] backdrop-blur-xl">
-          <Droplets className="text-brand-copper" size={25} />
-          <h2 className="mt-5 font-display text-3xl font-black">Pyramide olfactive</h2>
-          <p className="mt-4 text-sm leading-7 text-brand-muted">Une lecture claire des notes de tete, de coeur et de fond pour aider le client a imaginer le sillage.</p>
-        </article>
-        <article className="rounded-[28px] border border-black/10 bg-white/80 p-7 shadow-[0_25px_80px_rgba(17,19,24,0.08)] backdrop-blur-xl">
-          <Sparkles className="text-brand-copper" size={25} />
-          <h2 className="mt-5 font-display text-3xl font-black">Moment ideal</h2>
-          <p className="mt-4 text-sm leading-7 text-brand-muted">Soiree, cadeau, signature quotidienne ou occasion speciale: le detail produit reste sensoriel et commercial.</p>
-        </article>
-        <article className="rounded-[28px] border border-black/10 bg-brand-ink p-7 text-white shadow-[0_25px_80px_rgba(17,19,24,0.14)]">
-          <MessageCircle className="text-brand-gold" size={25} />
-          <h2 className="mt-5 font-display text-3xl font-black">Reservation directe</h2>
-          <p className="mt-4 text-sm leading-7 text-white/62">Le bouton WhatsApp prepare un message clair avec la reference choisie.</p>
-          <Link to="/checkout" className="mt-6 inline-flex items-center gap-2 text-sm font-black text-brand-gold">
-            Finaliser <ArrowRight size={16} />
-          </Link>
-        </article>
-      </section>
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <h2 className="font-title text-4xl font-black">Produits similaires</h2>
-        <div className="mt-8"><ProductGrid products={similar.length ? similar : products.slice(0, 4)} /></div>
-      </section>
+      </main>
+    );
+  }
+
+  if (notFound || !product) {
+    return (
+      <main className="page-shell pb-24 pt-40">
+        <EmptyState title={t("product.notFound.title")} text={t("product.notFound.text")} action={<Button as={Link} to="/shop">{t("common.backToShop")}</Button>} />
+      </main>
+    );
+  }
+
+  const soldOut = product.stock <= 0 || product.isAvailable === false;
+  const family = t(`families.${familyKey(product.category)}`, categoryLabel(product.category));
+  const similar = (() => {
+    const others = products.filter((item) => item.id !== product.id);
+    const sameFamily = others.filter((item) => item.category === product.category);
+    return [...sameFamily, ...others.filter((item) => !sameFamily.includes(item))].slice(0, 4);
+  })();
+
+  const add = () => {
+    addToCart(product, quantity);
+    toast.success(t("common.added", { name: product.name }));
+  };
+
+  const availability = soldOut
+    ? { label: t("common.outOfStock"), dot: "bg-brand-wine" }
+    : product.stock > 0 && product.stock <= 5
+      ? { label: t("common.lowStock", { count: product.stock }), dot: "bg-brand-copper" }
+      : { label: t("common.inStock"), dot: "bg-emerald-600" };
+
+  return (
+    <main className="pb-24 pt-[6.5rem]">
+      <div className="page-shell">
+        <nav aria-label="Fil d'Ariane" className="text-sm text-brand-muted">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li><Link className="transition hover:text-brand-ink" to="/shop">{t("nav.shop")}</Link></li>
+            <li aria-hidden="true">/</li>
+            <li><Link className="transition hover:text-brand-ink" to={`/shop?category=${encodeURIComponent(product.category)}`}>{family}</Link></li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="text-brand-ink">{product.name}</li>
+          </ol>
+        </nav>
+
+        <div className="mt-8 grid gap-14 lg:grid-cols-2 lg:gap-24">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <div className="relative mx-auto max-w-lg">
+              <div className="arch absolute -inset-3 border border-brand-gold/45" aria-hidden="true" />
+              <div className="arch relative aspect-[4/5] overflow-hidden bg-brand-sand">
+                <SafeImage src={optimizeImage(product.images?.[0] || product.image, 1000)} fallbackSrc={imageFallbacks.perfume} alt={product.name} className={`h-full w-full object-cover ${soldOut ? "opacity-70 grayscale-[0.4]" : ""}`} />
+              </div>
+              <button
+                type="button"
+                onClick={() => toggleFavorite(product.id)}
+                aria-pressed={favorite}
+                aria-label={favorite ? t("common.removeFavorite") : t("common.addFavorite")}
+                className="absolute bottom-4 end-4 grid h-12 w-12 place-items-center rounded-full bg-white/95 text-brand-ink shadow-lg transition hover:scale-105"
+              >
+                <Heart size={20} className={favorite ? "fill-brand-wine text-brand-wine" : ""} />
+              </button>
+            </div>
+          </div>
+
+          <div className="lg:pt-6">
+            <p className="eyebrow">{product.brand}</p>
+            <h1 className="mt-3 font-display text-display-xl font-medium">{product.name}</h1>
+            <p className="mt-4 text-brand-muted">{[family, product.gender && t(`genders.${product.gender}`, product.gender), product.volume].filter(Boolean).join(" · ")}</p>
+
+            <div className="mt-8"><PriceTag price={product.price} oldPrice={product.oldPrice} size="lg" /></div>
+            <p className="mt-4 inline-flex items-center gap-2 text-sm font-semibold"><span className={`h-2.5 w-2.5 rounded-full ${availability.dot}`} aria-hidden="true" /> {availability.label}</p>
+
+            <p className="mt-8 max-w-xl text-base leading-8 text-brand-ink/80">{product.description}</p>
+
+            <div className="mt-10 flex flex-wrap items-center gap-3">
+              <QuantitySelector value={quantity} onChange={setQuantity} max={product.stock} decreaseLabel={t("common.decrease")} increaseLabel={t("common.increase")} />
+              <Button size="lg" onClick={add} disabled={soldOut} className="flex-1 whitespace-nowrap sm:flex-none"><ShoppingBag size={18} /> {t("common.addToCart")}</Button>
+            </div>
+            <Button as="a" href={whatsappUrl(t("product.orderMessage", { name: product.name, volume: product.volume }))} target="_blank" rel="noreferrer" variant="whatsapp" size="lg" className="mt-3 w-full sm:w-auto"><MessageCircle size={18} /> {t("common.orderOnWhatsapp")}</Button>
+
+            <ul className="mt-10 grid gap-3 border-t border-brand-ink/10 pt-8 text-sm text-brand-ink/80">
+              {t("product.reassurance", { returnObjects: true }).map((line) => (
+                <li key={line} className="flex items-center gap-3"><span className="grid h-6 w-6 place-items-center rounded-full bg-brand-gold/20 text-brand-golddeep"><Check size={14} /></span>{line}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <section className="mt-28 grid items-center gap-12 rounded-[2rem] bg-brand-porcelain px-6 py-14 sm:px-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:py-20" aria-labelledby="pyramid-title">
+          <div>
+            <p className="eyebrow">{t("product.notesEyebrow")}</p>
+            <h2 id="pyramid-title" className="mt-3 font-display text-display-lg font-medium">{t("product.pyramid")}</h2>
+            <p className="mt-5 max-w-md leading-8 text-brand-muted">{t("product.pyramidText")}</p>
+          </div>
+          <NotesPyramid notes={product.notes} />
+        </section>
+
+        {similar.length > 0 && (
+          <section className="mt-28">
+            <h2 className="font-display text-display-lg font-medium">{t("product.similar")}</h2>
+            <div className="mt-10"><ProductGrid products={similar} /></div>
+          </section>
+        )}
+      </div>
     </main>
   );
 };

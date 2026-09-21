@@ -1,40 +1,91 @@
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { MessageCircle, ReceiptText, ShieldCheck } from "lucide-react";
-import { CheckoutForm } from "../../components/forms/CheckoutForm";
+import { ShoppingBag } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../api/axios";
+import { EmptyState } from "../../components/common/EmptyState";
 import { PageHeader } from "../../components/common/PageHeader";
+import { CheckoutForm } from "../../components/forms/CheckoutForm";
+import { Button } from "../../components/ui/Button";
+import { usePageTitle } from "../../hooks/usePageTitle";
 import { useAppStore } from "../../store/appStore";
-import { formatPrice } from "../../utils/format";
+import { formatPrice, orderReference } from "../../utils/format";
+import { buildOrderMessage, buildOrderNotes, deliveryLabels } from "../../utils/order";
 
 export const CheckoutPage = () => {
-  const cart = useAppStore((state) => state.cart);
-  const total = useAppStore((state) => state.cartTotal());
-  const clearCart = useAppStore((state) => state.clearCart);
+  const { t } = useTranslation();
+  usePageTitle(t("checkout.title"));
   const navigate = useNavigate();
-  const submit = (values) => {
-    const lines = cart.map((item, index) => `${index + 1}. ${item.name} - ${item.volume} x ${item.quantity} - ${formatPrice(item.price * item.quantity)}`).join("\n");
-    const message = `Bonjour, je souhaite confirmer cette commande :\n\nNom : ${values.fullName}\nTelephone : ${values.phone}\nAdresse : ${values.address}, ${values.city}\n\nCommande :\n${lines}\n\nTotal : ${formatPrice(total)}\n\nMerci de confirmer la disponibilite.`;
-    window.open(`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+  const cart = useAppStore((state) => state.cart);
+  const clearCart = useAppStore((state) => state.clearCart);
+  const total = cart.reduce((sum, line) => sum + line.price * line.quantity, 0);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [lastValues, setLastValues] = useState(null);
+
+  const finish = (id, values) => {
+    const order = {
+      reference: id ? orderReference(id) : "",
+      total,
+      message: buildOrderMessage({ id, values, cart, total })
+    };
+    navigate("/order-success", { replace: true, state: { order } });
     clearCart();
-    toast.success("Commande preparee");
-    navigate("/order-success");
   };
+
+  const submit = async (values) => {
+    setSubmitting(true);
+    setError("");
+    setLastValues(values);
+    try {
+      const pickup = values.delivery === "pickup";
+      const { data } = await api.post("/orders", {
+        customerName: values.fullName,
+        phone: values.phone,
+        address: pickup ? deliveryLabels.pickup : values.address,
+        city: pickup ? "—" : values.city,
+        notes: buildOrderNotes(values),
+        products: cart.map((line) => ({ perfumeId: line.id, quantity: line.quantity }))
+      });
+      finish(data.order?._id, values);
+    } catch {
+      setError(t("checkout.failed"));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (cart.length === 0) {
+    return (
+      <main className="pb-24">
+        <PageHeader eyebrow={t("checkout.eyebrow")} title={t("checkout.title")} />
+        <div className="page-shell pt-10">
+          <EmptyState icon={ShoppingBag} title={t("checkout.empty.title")} text={t("checkout.empty.text")} action={<Button as={Link} to="/shop">{t("common.backToShop")}</Button>} />
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <main className="pb-20">
-      <PageHeader eyebrow="Checkout" title="Finaliser la commande" text="Vos informations, livraison, paiement et recapitulation." image="https://images.unsplash.com/photo-1608528577891-eb055944f2e7?auto=format&fit=crop&w=1800&q=90" />
-      <div className="mx-auto -mt-8 grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_380px] lg:px-8">
-        <CheckoutForm onSubmit={submit} />
-        <aside className="sticky top-28 h-fit rounded-[28px] bg-[#0B0B0F] p-7 text-white shadow-[0_28px_90px_rgba(17,19,24,0.2)]">
-          <ReceiptText className="text-[#D6B56D]" size={26} />
-          <h2 className="mt-4 font-title text-3xl font-black">Recapitulatif</h2>
-          <div className="mt-5">{cart.map((item) => <p key={item.id} className="flex justify-between gap-4 py-2 text-sm text-white/70"><span>{item.name} x {item.quantity}</span><span>{formatPrice(item.price * item.quantity)}</span></p>)}</div>
-          <div className="my-5 h-px bg-white/10" />
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-white/45">Total</p>
-          <p className="mt-2 text-3xl font-black text-[#D6B56D]">{formatPrice(total)}</p>
-          <div className="mt-6 grid gap-3 text-sm text-white/68">
-            <p className="flex items-center gap-3"><MessageCircle className="text-[#D6B56D]" size={18} /> Confirmation WhatsApp automatique</p>
-            <p className="flex items-center gap-3"><ShieldCheck className="text-[#D6B56D]" size={18} /> Donnees utilisees pour la commande</p>
-          </div>
+    <main className="pb-24">
+      <PageHeader eyebrow={t("checkout.eyebrow")} title={t("checkout.title")} text={t("checkout.text")} />
+      <div className="page-shell grid gap-12 pt-12 lg:grid-cols-[1fr_24rem] lg:gap-16">
+        <CheckoutForm onSubmit={submit} submitting={submitting} error={error} onSendAnyway={error && lastValues ? () => finish(null, lastValues) : undefined} />
+        <aside className="h-fit rounded-3xl bg-brand-pine p-7 text-white lg:sticky lg:top-28">
+          <h2 className="font-display text-2xl font-medium">{t("checkout.summary")}</h2>
+          <ul className="mt-5 divide-y divide-white/10">
+            {cart.map((line) => (
+              <li key={line.id} className="flex justify-between gap-4 py-3 text-sm">
+                <span className="text-white/80">{line.name} <span className="text-white/50">× {line.quantity}</span></span>
+                <span className="shrink-0 tabular-nums">{formatPrice(line.price * line.quantity)}</span>
+              </li>
+            ))}
+          </ul>
+          <dl className="mt-5 flex items-end justify-between border-t border-white/15 pt-5">
+            <dt className="text-sm text-white/65">{t("common.total")}</dt>
+            <dd className="font-display text-3xl font-medium tabular-nums text-brand-goldsoft">{formatPrice(total)}</dd>
+          </dl>
+          <p className="mt-5 text-xs leading-6 text-white/60">{t("cart.deliveryNote")}</p>
         </aside>
       </div>
     </main>

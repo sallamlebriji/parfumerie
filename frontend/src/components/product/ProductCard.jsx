@@ -1,51 +1,75 @@
-import { Heart, Plus, Search } from "lucide-react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Heart, Plus } from "lucide-react";
 import toast from "react-hot-toast";
-import { Badge } from "../ui/Badge";
-import { Button } from "../ui/Button";
-import { PriceTag } from "./PriceTag";
-import { RatingStars } from "./RatingStars";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { useAppStore } from "../../store/appStore";
+import { discountPercent, optimizeImage } from "../../utils/format";
+import { categoryLabel, familyKey } from "../../utils/labels";
 import { SafeImage, imageFallbacks } from "../common/SafeImage";
+import { Badge } from "../ui/Badge";
+import { PriceTag } from "./PriceTag";
 
-export const ProductCard = ({ product, onQuickView }) => {
+export const ProductCard = ({ product }) => {
+  const { t } = useTranslation();
   const addToCart = useAppStore((state) => state.addToCart);
-  const toggleWishlist = useAppStore((state) => state.toggleWishlist);
+  const favorite = useAppStore((state) => state.favorites.includes(product.id));
+  const toggleFavorite = useAppStore((state) => state.toggleFavorite);
+  const soldOut = product.stock <= 0 || product.isAvailable === false;
+  const percent = discountPercent(product.price, product.oldPrice);
+  const family = t(`families.${familyKey(product.category)}`, categoryLabel(product.category));
 
-  const handleCart = () => {
+  const add = () => {
     addToCart(product);
-    toast.success(`${product.name} ajoute au panier`);
+    toast.success(t("common.added", { name: product.name }));
   };
 
   return (
-    <motion.article initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} whileHover={{ y: -10 }} className="group overflow-hidden rounded-[26px] border border-[#B68A35]/15 bg-white shadow-[0_22px_65px_rgba(17,24,39,0.08)] transition duration-300 hover:shadow-[0_35px_90px_rgba(17,24,39,0.16)]">
-      <div className="relative h-72 overflow-hidden bg-[#E9DDC7]">
-        <SafeImage src={product.images?.[0] || product.image} fallbackSrc={imageFallbacks.perfume} alt={product.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/36 via-transparent to-transparent opacity-70" />
-        <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-          <Badge>{product.badge}</Badge>
-          {product.stock <= 0 ? <Badge tone="red">Rupture</Badge> : <Badge tone="green">Disponible</Badge>}
+    <article className="group relative flex flex-col">
+      <Link to={`/shop/${product.id}`} className="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-brand-sand" aria-label={product.name}>
+        <SafeImage
+          src={optimizeImage(product.images?.[0] || product.image, 640)}
+          fallbackSrc={imageFallbacks.perfume}
+          alt=""
+          loading="lazy"
+          className={`h-full w-full object-cover transition duration-700 group-hover:scale-105 ${soldOut ? "opacity-60 grayscale-[0.4]" : ""}`}
+        />
+        <div className="absolute start-3 top-3 flex flex-wrap gap-1.5">
+          {percent > 0 && !soldOut && <Badge tone="dark" className="!bg-brand-wine !text-white">−{percent}%</Badge>}
+          {product.isNew && !soldOut && <Badge tone="light">{t("common.new")}</Badge>}
+          {soldOut && <Badge tone="dark">{t("common.outOfStock")}</Badge>}
         </div>
-        <div className="absolute right-4 top-4 flex flex-col gap-2 opacity-0 transition group-hover:opacity-100">
-          <button className="rounded-full bg-white/90 p-3 shadow" onClick={() => toggleWishlist(product.id)}><Heart size={17} /></button>
-          <button className="rounded-full bg-white/90 p-3 shadow" onClick={() => onQuickView?.(product)}><Search size={17} /></button>
-        </div>
-      </div>
-      <div className="p-6">
-        <p className="text-xs font-extrabold uppercase tracking-[0.28em] text-[#8A6230]">{product.brand}</p>
-        <Link to={`/shop/${product.id}`} className="mt-2 block font-title text-2xl font-black leading-tight hover:text-[#C8A96A]">{product.name}</Link>
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#8A8A8A]">{product.shortDescription}</p>
-        <div className="mt-4"><RatingStars value={product.rating} /></div>
-        <div className="mt-4 flex items-center justify-between gap-3">
+      </Link>
+
+      <button
+        type="button"
+        onClick={() => toggleFavorite(product.id)}
+        aria-pressed={favorite}
+        aria-label={favorite ? t("common.removeFavorite") : t("common.addFavorite")}
+        className="absolute end-3 top-3 grid h-10 w-10 place-items-center rounded-full bg-white/90 text-brand-ink shadow-sm backdrop-blur transition hover:bg-white"
+      >
+        <Heart size={18} className={favorite ? "fill-brand-wine text-brand-wine" : ""} />
+      </button>
+
+      <div className="mt-4 flex flex-1 flex-col">
+        <p className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-brand-golddeep">{product.brand}</p>
+        <h3 className="mt-1.5 font-display text-xl font-medium leading-snug">
+          <Link to={`/shop/${product.id}`} className="transition hover:text-brand-golddeep">{product.name}</Link>
+        </h3>
+        <p className="mt-1 text-sm text-brand-muted">{[family, product.volume].filter(Boolean).join(" · ")}</p>
+        <div className="mt-auto flex items-end justify-between gap-3 pt-4">
           <PriceTag price={product.price} oldPrice={product.oldPrice} />
-          <span className="rounded-full bg-[#E9DDC7]/70 px-3 py-1 text-xs font-bold">{product.volume}</span>
-        </div>
-        <div className="mt-5 grid grid-cols-2 gap-2">
-          <Button as={Link} to={`/shop/${product.id}`} variant="outline" className="w-full px-3 py-2.5">Details</Button>
-          <Button variant="primary" className="w-full px-3 py-2.5" onClick={handleCart}><Plus size={16} /> Panier</Button>
+          <button
+            type="button"
+            onClick={add}
+            disabled={soldOut}
+            aria-label={`${t("common.addToCart")} — ${product.name}`}
+            className="inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand-pine px-4 text-sm font-bold text-brand-porcelain transition hover:bg-brand-moss active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <Plus size={17} />
+            <span className="hidden sm:inline">{t("common.addToCart")}</span>
+          </button>
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 };

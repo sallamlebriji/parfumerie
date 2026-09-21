@@ -25,7 +25,7 @@ export const toProduct = (item) => ({
   isPromo: item.isPromo ?? Number(item.oldPrice || 0) > Number(item.price || 0),
   isNew: item.isNew ?? (item.createdAt ? Date.now() - new Date(item.createdAt).getTime() < 1000 * 60 * 60 * 24 * 30 : false),
   badge: item.badge || (item.stock <= 0 ? "rupture" : item.isFeatured ? "best-seller" : Number(item.oldPrice || 0) > Number(item.price || 0) ? "promo" : "catalogue"),
-  rating: item.rating || 4.7,
+  rating: item.rating || 0,
   sales: item.sales || 0,
   image: normalizeImage(item.image),
   images: item.images?.length ? item.images.map(normalizeImage) : [normalizeImage(item.image)],

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 
-export const AutoPlayVideo = ({ src, className = "" }) => {
+export const AutoPlayVideo = ({ src, className = "", playLabel = "Lire la vidéo", pauseLabel = "Mettre la vidéo en pause" }) => {
   const videoRef = useRef(null);
   const pausedByUser = useRef(false);
   const [playing, setPlaying] = useState(false);
@@ -50,10 +50,10 @@ export const AutoPlayVideo = ({ src, className = "" }) => {
       <button
         type="button"
         onClick={toggle}
-        aria-label={playing ? "Mettre la video en pause" : "Lire la video"}
-        className="absolute left-8 top-8 z-10 inline-flex h-14 w-14 items-center justify-center rounded-full bg-white text-brand-ink shadow-xl transition hover:scale-105"
+        aria-label={playing ? pauseLabel : playLabel}
+        className="absolute bottom-6 end-6 z-10 grid h-12 w-12 place-items-center rounded-full bg-white/95 text-brand-ink shadow-lg transition hover:scale-105"
       >
-        {playing ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
+        {playing ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="translate-x-px" />}
       </button>
     </>
   );
