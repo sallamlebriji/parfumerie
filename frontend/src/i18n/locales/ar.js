@@ -8,6 +8,7 @@ export default {
     contact: "اتصل بنا",
     track: "تتبّع طلبي",
     favorites: "المفضلة",
+    login: "تسجيل الدخول",
     cart: "السلة",
     language: "اللغة",
     menu: "القائمة",

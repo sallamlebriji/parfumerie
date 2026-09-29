@@ -1,4 +1,4 @@
-import { ArrowUpRight, Heart, Menu, MessageCircle, ShoppingBag, X } from "lucide-react";
+import { ArrowUpRight, Heart, Menu, MessageCircle, ShoppingBag, UserRound, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
@@ -61,6 +61,7 @@ export const PublicLayout = () => {
           </div>
           <div className="flex items-center gap-1">
             <LanguageSwitch className={`me-1 hidden sm:inline-flex ${solid ? "border-brand-ink/20" : "border-white/25"}`} />
+            <Link to="/login" className="me-1 hidden items-center gap-2 rounded-full border border-current/25 px-4 py-2 text-sm font-bold transition hover:border-brand-gold hover:text-brand-gold sm:inline-flex"><UserRound size={16} />{t("nav.login")}</Link>
             <IconLink to="/favorites" label={t("nav.favorites")} count={favoritesCount}><Heart size={20} /></IconLink>
             <IconLink to="/cart" label={t("nav.cart")} count={cartCount}><ShoppingBag size={20} /></IconLink>
             <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? t("nav.close") : t("nav.menu")} className="grid h-11 w-11 place-items-center rounded-full transition hover:bg-brand-gold/15 lg:hidden">
@@ -75,6 +76,7 @@ export const PublicLayout = () => {
                 <NavLink key={to} to={to} end={to === "/"} className={({ isActive }) => `rounded-xl px-3 py-3 text-base font-semibold ${isActive ? "bg-brand-gold/15 text-brand-golddeep" : "hover:bg-brand-ink/5"}`}>{t(key)}</NavLink>
               ))}
               <NavLink to="/track-order" className="rounded-xl px-3 py-3 text-base font-semibold hover:bg-brand-ink/5">{t("nav.track")}</NavLink>
+              <NavLink to="/login" className="rounded-xl px-3 py-3 text-base font-semibold hover:bg-brand-ink/5">{t("nav.login")}</NavLink>
             </div>
             <div className="mt-4 flex items-center justify-between gap-3">
               <LanguageSwitch className="border-brand-ink/20" />
@@ -123,6 +125,7 @@ export const PublicLayout = () => {
                 <li><Link className="transition hover:text-brand-gold" to="/faq">{t("faq.title")}</Link></li>
                 <li><Link className="transition hover:text-brand-gold" to="/about">{t("nav.about")}</Link></li>
                 <li><Link className="transition hover:text-brand-gold" to="/contact">{t("nav.contact")}</Link></li>
+                <li><Link className="transition hover:text-brand-gold" to="/login">{t("nav.login")}</Link></li>
               </ul>
             </div>
             <div>

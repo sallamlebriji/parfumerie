@@ -8,6 +8,7 @@ export default {
     contact: "Contact",
     track: "Suivre ma commande",
     favorites: "Favoris",
+    login: "Se connecter",
     cart: "Panier",
     language: "Langue",
     menu: "Menu",

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import gsap from "gsap";
-import { AlertCircle, ArrowRight, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
+import { AlertCircle, ArrowRight, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
@@ -18,6 +18,13 @@ const subtitles = {
   register: "La creation de comptes admin reste controlee par le superadmin.",
   forgot: "Recevez les instructions de recuperation si cette option est activee."
 };
+
+const DEMO_PASSWORD = "Demo12345";
+const demoAccounts = [
+  { role: "Administrateur", email: "demo.admin@parfumerie.local", hint: "Acces complet a la parfumerie" },
+  { role: "Manager", email: "demo.manager@parfumerie.local", hint: "Produits, commandes, rapports" },
+  { role: "Employe", email: "demo.employe@parfumerie.local", hint: "Commandes, stock et ventes" }
+];
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -152,6 +159,26 @@ export const AuthPage = ({ type = "login" }) => {
             {isSubmitting ? "Verification..." : titles[type]}
             <ArrowRight size={17} />
           </Button>
+
+          {type === "login" && (
+            <div className="mt-7 border-t border-[#D8B87E]/18 pt-5">
+              <p className="mb-3 text-center text-[0.7rem] font-extrabold uppercase tracking-[0.24em] text-[#D8B87E]">Comptes de demonstration</p>
+              <div className="grid gap-2">
+                {demoAccounts.map((account) => (
+                  <button
+                    key={account.email}
+                    type="button"
+                    onClick={() => { setForm((current) => ({ ...current, email: account.email, password: DEMO_PASSWORD })); setErrors({}); }}
+                    className="flex items-center gap-3 rounded-2xl border border-[#D8B87E]/18 bg-[#FFF5E7]/[0.045] px-4 py-3 text-left transition hover:border-[#D8B87E]/60 hover:bg-[#FFF5E7]/10"
+                  >
+                    <UserRound size={18} className="shrink-0 text-[#D8B87E]" />
+                    <span><span className="block text-sm font-black">{account.role}</span><span className="block text-xs font-semibold text-[#F8EAD7]/55">{account.hint}</span></span>
+                  </button>
+                ))}
+              </div>
+              <p className="mt-3 text-center text-xs text-white/45">Cliquez sur un profil, puis sur Connexion admin.</p>
+            </div>
+          )}
 
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm font-bold text-white/58">
             {type === "login" ? (

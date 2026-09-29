@@ -8,6 +8,7 @@ export default {
     contact: "Contact",
     track: "Track my order",
     favorites: "Favorites",
+    login: "Sign in",
     cart: "Cart",
     language: "Language",
     menu: "Menu",
