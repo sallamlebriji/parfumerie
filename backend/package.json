@@ -8,6 +8,7 @@
     "start": "node server.js",
     "seed:admin": "node seedAdmin.js",
     "seed:sample": "node seedSampleData.js",
+    "seed:demo": "node seedDemo.js",
     "migrate:saas": "node migrateSaasTenants.js"
   },
   "dependencies": {
